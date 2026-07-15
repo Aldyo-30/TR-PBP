@@ -252,5 +252,4 @@ main
 | **3** | Mapel + Tahun Ajaran + Input Nilai | 11 | 6 | **~17** |
 | **4** | Raport + Rekap + Design CSS | 3 | 10 | **~13** |
 
-> [!NOTE]
-> Meskipun jumlah file Anggota 4 paling sedikit, **CSS design untuk seluruh aplikasi** membutuhkan effort yang setara karena harus styling ~15 halaman + responsive + print layout.
+
