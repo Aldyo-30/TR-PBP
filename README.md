@@ -8,19 +8,19 @@
 
 ```mermaid
 graph TB
-    subgraph "👤 Anggota 1"
+    subgraph "👤 ALDYO"
         A["⚙️ Setup Awal + 🔐 Auth + 📊 Dashboard + 👥 User Management"]
     end
     
-    subgraph "👤 Anggota 2"
+    subgraph "👤 KEVIN"
         B["👨‍🏫 Data Guru + 👨‍🎓 Data Siswa + 🏫 Data Kelas"]
     end
     
-    subgraph "👤 Anggota 3"
+    subgraph "👤 JOSAN"
         C["📚 Data Mapel + 📅 Tahun Ajaran + 📝 Input Nilai"]
     end
     
-    subgraph "👤 Anggota 4"
+    subgraph "👤 ARIL"
         D["📄 Raport + 📊 Rekap Nilai + 🎨 Design & CSS"]
     end
     
@@ -32,7 +32,7 @@ graph TB
 
 ---
 
-## 👤 ARIL — Setup Awal + Auth + Dashboard + User Management
+## 👤 ALDYO — Setup Awal + Auth + Dashboard + User Management
 
 **Fitur**: Menyiapkan fondasi project, sistem login/logout, dashboard, dan kelola user.
 
@@ -117,7 +117,7 @@ graph TB
 
 ---
 
-## 👤 ALDYO — Data Mapel + Tahun Ajaran + Input Nilai
+## 👤 JOSAN — Data Mapel + Tahun Ajaran + Input Nilai
 
 **Fitur**: Full CRUD data mata pelajaran & tahun ajaran, serta fitur input nilai siswa.
 
@@ -152,7 +152,7 @@ graph TB
 
 ---
 
-## 👤 JOSAN — Raport + Rekap Nilai + Design & CSS
+## 👤 ARIL — Raport + Rekap Nilai + Design & CSS
 
 **Fitur**: Halaman raport siswa, rekap nilai kelas, cetak raport, dan seluruh desain visual.
 
@@ -205,10 +205,10 @@ graph TB
 
 ```mermaid
 graph LR
-    A1["🔴 Anggota 1<br/>Setup + Auth + Layout<br/>(HARUS SELESAI DULUAN)"] --> A2["Anggota 2<br/>Guru, Siswa, Kelas"]
-    A1 --> A3["Anggota 3<br/>Mapel, TA, Nilai"]
-    A1 --> A4["Anggota 4<br/>CSS bisa duluan"]
-    A2 --> A4b["Anggota 4<br/>Raport & Rekap"]
+    A1["🔴 ALDYO<br/>Setup + Auth + Layout<br/>(HARUS SELESAI DULUAN)"] --> A2["Anggota 2<br/>Guru, Siswa, Kelas"]
+    A1 --> A3["KEVIN<br/>Mapel, TA, Nilai"]
+    A1 --> A4["JOSAN<br/>CSS bisa duluan"]
+    A2 --> A4b["ARIL<br/>Raport & Rekap"]
     A3 --> A4b
 ```
 
@@ -252,5 +252,4 @@ main
 | **3** | Mapel + Tahun Ajaran + Input Nilai | 11 | 6 | **~17** |
 | **4** | Raport + Rekap + Design CSS | 3 | 10 | **~13** |
 
-> [!NOTE]
-> Meskipun jumlah file Anggota 4 paling sedikit, **CSS design untuk seluruh aplikasi** membutuhkan effort yang setara karena harus styling ~15 halaman + responsive + print layout.
+
