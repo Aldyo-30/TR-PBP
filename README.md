@@ -8,19 +8,19 @@
 
 ```mermaid
 graph TB
-    subgraph "👤 Anggota 1"
+    subgraph "👤 ALDYO"
         A["⚙️ Setup Awal + 🔐 Auth + 📊 Dashboard + 👥 User Management"]
     end
     
-    subgraph "👤 Anggota 2"
+    subgraph "👤 KEVIN"
         B["👨‍🏫 Data Guru + 👨‍🎓 Data Siswa + 🏫 Data Kelas"]
     end
     
-    subgraph "👤 Anggota 3"
+    subgraph "👤 JOSAN"
         C["📚 Data Mapel + 📅 Tahun Ajaran + 📝 Input Nilai"]
     end
     
-    subgraph "👤 Anggota 4"
+    subgraph "👤 ARIL"
         D["📄 Raport + 📊 Rekap Nilai + 🎨 Design & CSS"]
     end
     
@@ -32,7 +32,7 @@ graph TB
 
 ---
 
-## 👤 ARIL — Setup Awal + Auth + Dashboard + User Management
+## 👤 ALDYO — Setup Awal + Auth + Dashboard + User Management
 
 **Fitur**: Menyiapkan fondasi project, sistem login/logout, dashboard, dan kelola user.
 
@@ -117,7 +117,7 @@ graph TB
 
 ---
 
-## 👤 ALDYO — Data Mapel + Tahun Ajaran + Input Nilai
+## 👤 JOSAN — Data Mapel + Tahun Ajaran + Input Nilai
 
 **Fitur**: Full CRUD data mata pelajaran & tahun ajaran, serta fitur input nilai siswa.
 
@@ -152,7 +152,7 @@ graph TB
 
 ---
 
-## 👤 JOSAN — Raport + Rekap Nilai + Design & CSS
+## 👤 ARIL — Raport + Rekap Nilai + Design & CSS
 
 **Fitur**: Halaman raport siswa, rekap nilai kelas, cetak raport, dan seluruh desain visual.
 
