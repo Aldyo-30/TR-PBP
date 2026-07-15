@@ -1,4 +1,4 @@
-# Pembagian Job Desk Berdasarkan Fitur 
+# Pembagian Job Desk 
 
 > Setiap anggota mengerjakan **full-stack** (Backend + Frontend) untuk fitur yang ditangani.
 
