@@ -205,9 +205,9 @@ graph TB
 
 ```mermaid
 graph LR
-    A1["🔴 ALDYO<br/>Setup + Auth + Layout<br/>(HARUS SELESAI DULUAN)"] --> A2["Anggota 2<br/>Guru, Siswa, Kelas"]
-    A1 --> A3["KEVIN<br/>Mapel, TA, Nilai"]
-    A1 --> A4["JOSAN<br/>CSS bisa duluan"]
+    A1["🔴 ALDYO<br/>Setup + Auth + Layout<br/>(HARUS SELESAI DULUAN)"] --> KEVIN["Anggota 2<br/>Guru, Siswa, Kelas"]
+    A1 --> A3["JOSAN<br/>Mapel, TA, Nilai"]
+    A1 --> A4["ARIL<br/>CSS bisa duluan"]
     A2 --> A4b["ARIL<br/>Raport & Rekap"]
     A3 --> A4b
 ```
