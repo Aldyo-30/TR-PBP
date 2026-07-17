@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,14 +13,24 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     * Membuat akun admin dan guru demo untuk keperluan development.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Akun Administrator
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name'     => 'Administrator',
+            'email'    => 'admin@raportsd.com',
+            'password' => Hash::make('password'),
+            'role'     => 'admin',
+        ]);
+
+        // Akun Guru Demo
+        User::factory()->create([
+            'name'     => 'Guru Demo',
+            'email'    => 'guru@raportsd.com',
+            'password' => Hash::make('password'),
+            'role'     => 'guru',
         ]);
     }
 }
