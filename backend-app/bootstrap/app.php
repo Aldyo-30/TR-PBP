@@ -14,9 +14,6 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Konfigurasi Sanctum stateful middleware untuk SPA authentication
-        $middleware->statefulApi();
-
         // Alias middleware custom untuk role-based access control
         $middleware->alias([
             'role' => RoleMiddleware::class,

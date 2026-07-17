@@ -26,6 +26,7 @@ import {
   FiSettings,
   FiLogOut,
   FiX,
+  FiUser,
 } from 'react-icons/fi';
 import '../../styles/sidebar.css';
 
@@ -115,10 +116,6 @@ const Sidebar = ({ isOpen, onClose }) => {
               </span>
             </div>
           </div>
-          <button className="sidebar-logout-btn" onClick={handleLogout}>
-            <FiLogOut size={18} />
-            <span>Logout</span>
-          </button>
         </div>
       </aside>
     </>

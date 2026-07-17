@@ -26,6 +26,7 @@ import ProtectedRoute from './components/common/ProtectedRoute';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import UserList from './pages/users/UserList';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -239,6 +240,18 @@ function App() {
               <ProtectedRoute allowedRoles={['admin']}>
                 <MainLayout>
                   <UserList />
+                </MainLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Profile — all authenticated users */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <Profile />
                 </MainLayout>
               </ProtectedRoute>
             }

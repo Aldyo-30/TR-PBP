@@ -56,6 +56,43 @@ class AuthController extends Controller
     }
 
     /**
+     * Register user baru.
+     * Default role: guru. Setelah register, otomatis login (return token).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request): JsonResponse
+    {
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Buat user baru dengan role default 'guru'
+        $user = User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => bcrypt($request->password),
+            'role'     => 'guru',
+        ]);
+
+        // Auto-login: buat Sanctum token
+        $token = $user->createToken('auth-token')->plainTextToken;
+
+        return response()->json([
+            'success' => true,
+            'data'    => [
+                'access_token' => $token,
+                'token_type'   => 'bearer',
+                'user'         => $user,
+            ],
+            'message' => 'Registrasi berhasil.',
+        ], 201);
+    }
+
+    /**
      * Logout user — hapus token yang sedang digunakan.
      *
      * @param  \Illuminate\Http\Request  $request

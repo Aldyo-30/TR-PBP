@@ -66,7 +66,9 @@ const UserList = () => {
     try {
       setLoading(true);
       const response = await api.get('/users');
-      setUsers(response.data.data || response.data);
+      const result = response.data.data;
+      // Handle paginated response (result.data) or plain array
+      setUsers(Array.isArray(result) ? result : (result.data || []));
     } catch (error) {
       console.error('Failed to fetch users:', error);
       toast.error('Gagal memuat data user.');

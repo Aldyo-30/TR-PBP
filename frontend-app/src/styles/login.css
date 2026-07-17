@@ -308,6 +308,74 @@
 }
 
 
+/* ---- Toggle Login / Register ---- */
+.login-toggle {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-toggle p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.login-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--accent-primary);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  margin-left: 6px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.login-toggle-btn:hover {
+  color: #60a5fa;
+  background: rgba(59, 130, 246, 0.1);
+  text-decoration: underline;
+}
+
+/* ---- Register Mode Card ---- */
+.login-card-register {
+  max-width: 460px;
+}
+
+/* ---- Field Animation (for register toggle) ---- */
+.login-field-animate {
+  animation: fieldSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fieldSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 100px;
+  }
+}
+
+/* ---- Input Error State ---- */
+.login-input-error {
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
+}
+
+.login-field-error {
+  display: block;
+  font-size: 12px;
+  color: #fca5a5;
+  margin-top: 6px;
+  padding-left: 2px;
+}
+
+
 /* ---- Login Footer ---- */
 .login-footer {
   text-align: center;
@@ -327,6 +395,10 @@
   .login-card {
     padding: 32px 24px 24px;
     border-radius: 16px;
+  }
+
+  .login-card-register {
+    max-width: 100%;
   }
 
   .login-title {

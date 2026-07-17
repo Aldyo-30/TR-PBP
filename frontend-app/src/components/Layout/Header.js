@@ -40,6 +40,7 @@ const Header = ({ onToggleSidebar }) => {
       '/raport': 'Raport',
       '/rekap': 'Rekap Nilai',
       '/users': 'Manajemen User',
+      '/profile': 'Profil Saya',
     };
     return titles[location.pathname] || 'Halaman';
   };
@@ -112,7 +113,7 @@ const Header = ({ onToggleSidebar }) => {
                 className="header-dropdown-item"
                 onClick={() => {
                   setDropdownOpen(false);
-                  navigate('/dashboard');
+                  navigate('/profile');
                 }}
               >
                 <FiUser size={16} />

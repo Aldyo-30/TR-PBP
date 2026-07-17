@@ -3,71 +3,64 @@
  * Authentication Context
  * ============================================
  * Provides global auth state to the entire app.
- * - Manages user, token, and loading states
- * - Verifies token on mount via /me endpoint
- * - Provides login/logout functions
- * - Computes role-based access (isAdmin, isGuru)
+ * - Restores auth from localStorage on reload
+ * - No blocking /me call on mount — trusts localStorage
+ * - Backend 401 via axios interceptor handles expired tokens
+ * - Provides login/logout/register functions
  * ============================================
  */
 
-import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 
-// Create the context
 const AuthContext = createContext(null);
 
 /**
- * AuthProvider Component
- * Wraps the app and provides authentication state + actions.
+ * Helper: safely parse user from localStorage
  */
+const getStoredUser = () => {
+  try {
+    const stored = localStorage.getItem('user');
+    return stored ? JSON.parse(stored) : null;
+  } catch {
+    return null;
+  }
+};
+
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token'));
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(getStoredUser);
+  const [token, setToken] = useState(() => localStorage.getItem('token'));
+  // No loading state needed — we trust localStorage immediately
+  const [loading] = useState(false);
+
   const navigate = useNavigate();
 
   /**
-   * Verify token on mount
-   * If a token exists in localStorage, validate it by calling /me
-   */
-  useEffect(() => {
-    const verifyToken = async () => {
-      const storedToken = localStorage.getItem('token');
-      if (storedToken) {
-        try {
-          const response = await api.get('/me');
-          setUser(response.data.user || response.data);
-          setToken(storedToken);
-        } catch (error) {
-          // Token is invalid or expired — clear everything
-          console.error('Token verification failed:', error);
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          setUser(null);
-          setToken(null);
-        }
-      }
-      setLoading(false);
-    };
-
-    verifyToken();
-  }, []);
-
-  /**
    * Login Function
-   * Authenticates user with email & password, stores token + user data.
    */
   const login = useCallback(async (email, password) => {
     const response = await api.post('/login', { email, password });
-    const { token: newToken, user: userData } = response.data;
+    const { access_token, user: userData } = response.data.data;
 
-    // Persist auth data
-    localStorage.setItem('token', newToken);
+    localStorage.setItem('token', access_token);
     localStorage.setItem('user', JSON.stringify(userData));
+    setToken(access_token);
+    setUser(userData);
 
-    // Update state
-    setToken(newToken);
+    return response.data;
+  }, []);
+
+  /**
+   * Register Function
+   */
+  const register = useCallback(async (name, email, password, password_confirmation) => {
+    const response = await api.post('/register', { name, email, password, password_confirmation });
+    const { access_token, user: userData } = response.data.data;
+
+    localStorage.setItem('token', access_token);
+    localStorage.setItem('user', JSON.stringify(userData));
+    setToken(access_token);
     setUser(userData);
 
     return response.data;
@@ -75,13 +68,11 @@ export const AuthProvider = ({ children }) => {
 
   /**
    * Logout Function
-   * Calls logout API, clears state + localStorage, redirects to login.
    */
   const logout = useCallback(async () => {
     try {
       await api.post('/logout');
     } catch (error) {
-      // Even if API call fails, we still clear local data
       console.error('Logout API error:', error);
     } finally {
       localStorage.removeItem('token');
@@ -92,16 +83,15 @@ export const AuthProvider = ({ children }) => {
     }
   }, [navigate]);
 
-  // Computed role checks
   const isAdmin = user?.role === 'admin';
   const isGuru = user?.role === 'guru';
 
-  // Context value — all auth state and actions
   const value = {
     user,
     token,
     loading,
     login,
+    register,
     logout,
     isAdmin,
     isGuru,
@@ -114,10 +104,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-/**
- * useAuth Hook
- * Convenient way to access auth context from any component.
- */
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

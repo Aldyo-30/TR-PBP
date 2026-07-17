@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 // Public Routes (tanpa autentikasi)
 // ======================================================================
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
 // ======================================================================
 // Protected Routes (memerlukan autentikasi Sanctum)
@@ -32,6 +34,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // --- Dashboard ---
     Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    // --- Profil (semua user) ---
+    Route::get('/profile', [ProfileController::class, 'show']);
+    Route::put('/profile', [ProfileController::class, 'update']);
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword']);
+    Route::delete('/profile', [ProfileController::class, 'destroy']);
 
     // ==================================================================
     // Admin Only Routes

@@ -39,20 +39,22 @@ api.interceptors.request.use(
 
 /**
  * Response Interceptor
- * On 401 Unauthorized response:
- * - Clears stored auth data (token + user)
- * - Redirects user to login page
+ * On 401 Unauthorized: clear stored auth data.
+ * The React components will handle redirect via AuthContext state.
  */
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-
-      // Only redirect if not already on the login page
-      if (window.location.pathname !== '/login') {
-        window.location.href = '/login';
+      // Don't clear on login/register attempts (wrong password etc.)
+      const url = error.config?.url || '';
+      if (!url.includes('/login') && !url.includes('/register')) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        // Redirect to login via full page reload to reset all React state
+        if (window.location.pathname !== '/login') {
+          window.location.href = '/login';
+        }
       }
     }
     return Promise.reject(error);
