@@ -25,6 +25,8 @@ import ProtectedRoute from './components/common/ProtectedRoute';
 // Pages — ALDYO
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import RaportView from './pages/raport/RaportView';
+import RekapNilai from './pages/raport/RekapNilai';
 import UserList from './pages/users/UserList';
 import Profile from './pages/Profile';
 
@@ -191,43 +193,35 @@ function App() {
             }
           />
 
-          {/* Raport — ARIL's page (placeholder) */}
+          {/* Raport — full view */}
           <Route
             path="/raport"
             element={
               <ProtectedRoute>
                 <MainLayout>
-                  <div className="page-container">
-                    <div className="page-header">
-                      <h1 className="page-title">Halaman Raport</h1>
-                      <p className="page-description">Halaman ini akan dikerjakan oleh ARIL.</p>
-                    </div>
-                    <div className="card placeholder-card">
-                      <span className="placeholder-emoji">📄</span>
-                      <p>Modul Raport — Coming Soon</p>
-                    </div>
-                  </div>
+                  <RaportView />
+                </MainLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/raport/:studentId"
+            element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <RaportView />
                 </MainLayout>
               </ProtectedRoute>
             }
           />
 
-          {/* Rekap Nilai — ARIL's page (placeholder) */}
+          {/* Rekap Nilai — class recap & ranking */}
           <Route
             path="/rekap"
             element={
               <ProtectedRoute>
                 <MainLayout>
-                  <div className="page-container">
-                    <div className="page-header">
-                      <h1 className="page-title">Halaman Rekap Nilai</h1>
-                      <p className="page-description">Halaman ini akan dikerjakan oleh ARIL.</p>
-                    </div>
-                    <div className="card placeholder-card">
-                      <span className="placeholder-emoji">📊</span>
-                      <p>Modul Rekap Nilai — Coming Soon</p>
-                    </div>
-                  </div>
+                  <RekapNilai />
                 </MainLayout>
               </ProtectedRoute>
             }

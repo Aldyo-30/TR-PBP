@@ -68,10 +68,9 @@ Route::middleware('auth:sanctum')->group(function () {
         // ----------------------------------------------------------
 
         // ----------------------------------------------------------
-        // TODO: ARIL — Tambahkan route Nilai & Raport di sini
-        // Route::apiResource('nilai', NilaiController::class);
-        // Route::get('/raport/{siswa}', [RaportController::class, 'show']);
-        // Route::get('/raport/{siswa}/cetak', [RaportController::class, 'cetak']);
+        // ARIL — Route Nilai & Raport
+        Route::get('/raport/{id}', [\App\Http\Controllers\Api\NilaiController::class, 'raport']);
+        Route::get('/rekap', [\App\Http\Controllers\Api\NilaiController::class, 'rekap']);
         // ----------------------------------------------------------
     });
 });
