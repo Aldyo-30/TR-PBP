@@ -70,7 +70,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // ----------------------------------------------------------
         // ARIL — Route Nilai & Raport
         Route::get('/raport/{id}', [\App\Http\Controllers\Api\NilaiController::class, 'raport']);
-        Route::get('/rekap', [\App\Http\Controllers\Api\NilaiController::class, 'rekap']);
+        Route::get('/rekap/{kelas_id?}', [\App\Http\Controllers\Api\NilaiController::class, 'rekap']);
         // ----------------------------------------------------------
     });
 });

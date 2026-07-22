@@ -8,6 +8,7 @@ const RaportView = () => {
   const { studentId } = useParams();
   const { user } = useAuth();
   const id = studentId || user?.id;
+  const tahunAjaranId = new URLSearchParams(window.location.search).get('tahun_ajaran_id') || '1';
 
   const [loading, setLoading] = useState(true);
   const [raport, setRaport] = useState(null);
@@ -23,7 +24,7 @@ const RaportView = () => {
     const fetchRaport = async () => {
       try {
         setLoading(true);
-        const res = await api.get(`/raport/${id}`);
+        const res = await api.get(`/raport/${id}?tahun_ajaran_id=${tahunAjaranId}`);
         setRaport(res.data);
       } catch (err) {
         console.error('Error fetching raport:', err);
@@ -34,11 +35,11 @@ const RaportView = () => {
     };
 
     fetchRaport();
-  }, [id]);
+  }, [id, tahunAjaranId]);
 
   const getSubjects = () => {
     if (!raport) return [];
-    return raport.subjects || raport.nilai || raport.data || [];
+    return raport.nilai || raport.subjects || raport.data || [];
   };
 
   const computeAverage = (items) => {
@@ -46,7 +47,7 @@ const RaportView = () => {
     const values = items
       .map((it) => {
         if (typeof it === 'number') return it;
-        return Number(it.nilai ?? it.value ?? it.score ?? it.grade ?? it.points ?? 0);
+        return Number(it.nilai_akhir ?? it.nilai ?? it.value ?? it.score ?? it.grade ?? it.points ?? 0);
       })
       .filter((v) => !Number.isNaN(v));
     if (values.length === 0) return '-';
@@ -57,7 +58,7 @@ const RaportView = () => {
   const handlePrint = () => window.print();
 
   const subjects = getSubjects();
-  const avg = computeAverage(subjects);
+  const avg = raport?.rata_rata ?? computeAverage(subjects);
 
   return (
     <div className="raport-view">
@@ -77,16 +78,16 @@ const RaportView = () => {
         <div className="raport-card">
           <div className="raport-meta">
             <div>
-              <strong>Nama:</strong> {raport?.student?.name || raport?.student_name || user?.name || '-'}
+              <strong>Nama:</strong> {raport?.siswa?.nama || raport?.student?.name || raport?.student_name || user?.name || '-'}
             </div>
             <div>
-              <strong>NIS:</strong> {raport?.student?.nis || raport?.nis || '-'}
+              <strong>NIS:</strong> {raport?.siswa?.nis || raport?.student?.nis || raport?.nis || '-'}
             </div>
             <div>
-              <strong>Kelas:</strong> {raport?.student?.kelas || raport?.kelas || '-'}
+              <strong>Kelas:</strong> {raport?.siswa?.kelas?.nama || raport?.student?.kelas || raport?.kelas || '-'}
             </div>
             <div>
-              <strong>Semester:</strong> {raport?.semester || '-'}
+              <strong>Semester:</strong> {raport?.tahun_ajaran?.nama || raport?.tahun_ajaran?.semester || '-'}
             </div>
           </div>
 
@@ -95,32 +96,39 @@ const RaportView = () => {
               <tr>
                 <th>#</th>
                 <th>Mata Pelajaran</th>
-                <th>Nilai</th>
+                <th>Nilai Tugas</th>
+                <th>Nilai UTS</th>
+                <th>Nilai UAS</th>
+                <th>Nilai Akhir</th>
+                <th>Predikat</th>
               </tr>
             </thead>
             <tbody>
               {subjects.length === 0 && (
                 <tr>
-                  <td colSpan={3} style={{ textAlign: 'center' }}>
+                  <td colSpan={7} style={{ textAlign: 'center' }}>
                     Tidak ada data nilai.
                   </td>
                 </tr>
               )}
               {subjects.map((s, idx) => {
-                const name = s.subject ?? s.mapel ?? s.nama ?? s.name ?? s.title ?? `Mapel ${idx + 1}`;
-                const value = typeof s === 'number' ? s : (s.nilai ?? s.value ?? s.score ?? s.grade ?? s.points ?? '-');
+                const name = s.mataPelajaran?.nama ?? s.mata_pelajaran?.nama ?? s.subject ?? s.mapel ?? s.nama ?? s.name ?? s.title ?? `Mapel ${idx + 1}`;
                 return (
                   <tr key={idx}>
                     <td>{idx + 1}</td>
                     <td>{name}</td>
-                    <td>{value}</td>
+                    <td>{s.nilai_tugas ?? s.tugas ?? '-'} </td>
+                    <td>{s.nilai_uts ?? s.uts ?? '-'} </td>
+                    <td>{s.nilai_uas ?? s.uas ?? '-'} </td>
+                    <td>{s.nilai_akhir ?? s.akhir ?? '-'}</td>
+                    <td>{s.predikat ?? '-'}</td>
                   </tr>
                 );
               })}
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan={2}><strong>Rata-rata</strong></td>
+                <td colSpan={6}><strong>Rata-rata</strong></td>
                 <td><strong>{avg}</strong></td>
               </tr>
             </tfoot>

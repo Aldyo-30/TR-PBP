@@ -217,7 +217,7 @@ function App() {
 
           {/* Rekap Nilai — class recap & ranking */}
           <Route
-            path="/rekap"
+            path="/rekap/:kelasId?"
             element={
               <ProtectedRoute>
                 <MainLayout>
