@@ -63,6 +63,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // ----------------------------------------------------------
         // TODO: JOSAN — Tambahkan route Siswa & Kelas di sini
+        Route::apiResource('mata-pelajaran', MataPelajaranController::class);
+
+        Route::apiResource('tahun-ajaran', TahunAjaranController::class);
+        Route::patch('tahun-ajaran/{id}/toggle-active', [TahunAjaranController::class, 'toggleActive']);
+
+        Route::get('nilai', [NilaiController::class, 'index']);
+        Route::post('nilai', [NilaiController::class, 'store']);
+        Route::put('nilai/{id}', [NilaiController::class, 'update']);
         // Route::apiResource('siswa', SiswaController::class);
         // Route::apiResource('kelas', KelasController::class);
         // ----------------------------------------------------------
