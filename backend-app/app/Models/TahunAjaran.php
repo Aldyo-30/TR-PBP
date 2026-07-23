@@ -27,14 +27,6 @@ class TahunAjaran extends Model
      * Scope untuk mengambil tahun ajaran yang aktif.
      */
     public function scopeActive(Builder $query): Builder
-use Illuminate\Database\Eloquent\Model;
-
-class TahunAjaran extends Model
-{
-    protected $table = 'tahun_ajaran';
-    protected $fillable = ['tahun_ajaran', 'semester', 'is_active'];
-
-    public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
@@ -46,8 +38,11 @@ class TahunAjaran extends Model
     {
         return $this->hasMany(Kelas::class);
     }
-}
-    public function nilai()
+
+    /**
+     * Relasi ke Nilai.
+     */
+    public function nilai(): HasMany
     {
         return $this->hasMany(Nilai::class, 'tahun_ajaran_id');
     }

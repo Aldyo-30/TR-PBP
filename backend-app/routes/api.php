@@ -7,8 +7,10 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\GuruController;
 use App\Http\Controllers\Api\KelasController;
 use App\Http\Controllers\Api\SiswaController;
+use App\Http\Controllers\Api\MataPelajaranController;
+use App\Http\Controllers\Api\TahunAjaranController;
+use App\Http\Controllers\Api\NilaiController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes — Aplikasi Raport SD
@@ -66,29 +68,19 @@ Route::middleware('auth:sanctum')->group(function () {
         // Data Siswa & Kelas (KEVIN)
         Route::apiResource('siswa', SiswaController::class);
         Route::apiResource('kelas', KelasController::class);
-        // ----------------------------------------------------------
-        // TODO: JOSAN — Tambahkan route Siswa & Kelas di sini
+        
+        // Data Mata Pelajaran & Tahun Ajaran
         Route::apiResource('mata-pelajaran', MataPelajaranController::class);
-
         Route::apiResource('tahun-ajaran', TahunAjaranController::class);
         Route::patch('tahun-ajaran/{id}/toggle-active', [TahunAjaranController::class, 'toggleActive']);
 
+        // Data Nilai
         Route::get('nilai', [NilaiController::class, 'index']);
         Route::post('nilai', [NilaiController::class, 'store']);
         Route::put('nilai/{id}', [NilaiController::class, 'update']);
-        // Route::apiResource('siswa', SiswaController::class);
-        // Route::apiResource('kelas', KelasController::class);
-        // ----------------------------------------------------------
 
-        // ----------------------------------------------------------
-        // TODO: JOSAN / ARIL — Tambahkan route Nilai & Raport di sini
-        // Route::apiResource('nilai', NilaiController::class);
-        // Route::get('/raport/{siswa}', [RaportController::class, 'show']);
-        // Route::get('/raport/{siswa}/cetak', [RaportController::class, 'cetak']);
-        // ARIL — Route Nilai & Raport
-        Route::get('/raport/{id}', [\App\Http\Controllers\Api\NilaiController::class, 'raport']);
-        Route::get('/rekap/{kelas_id?}', [\App\Http\Controllers\Api\NilaiController::class, 'rekap']);
-        // ----------------------------------------------------------
+        // Raport & Rekap (ARIL)
+        Route::get('/raport/{id}', [NilaiController::class, 'raport']);
+        Route::get('/rekap/{kelas_id?}', [NilaiController::class, 'rekap']);
     });
 });
-

@@ -16,8 +16,9 @@ class MataPelajaranController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'kode_mapel' => 'required|unique:mata_pelajaran,kode_mapel',
-            'nama_mapel' => 'required|string',
+            'kode' => 'required|unique:mata_pelajaran,kode',
+            'nama' => 'required|string',
+            'kkm'  => 'required|numeric|min:0|max:100',
         ]);
 
         $mapel = MataPelajaran::create($validated);
@@ -33,8 +34,9 @@ class MataPelajaranController extends Controller
     {
         $mapel = MataPelajaran::findOrFail($id);
         $validated = $request->validate([
-            'kode_mapel' => 'required|unique:mata_pelajaran,kode_mapel,' . $id,
-            'nama_mapel' => 'required|string',
+            'kode' => 'required|unique:mata_pelajaran,kode,' . $id,
+            'nama' => 'required|string',
+            'kkm'  => 'required|numeric|min:0|max:100',
         ]);
 
         $mapel->update($validated);

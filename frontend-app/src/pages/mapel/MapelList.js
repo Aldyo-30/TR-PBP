@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../api/axios';
 import MapelForm from '../../components/forms/MapelForm';
 
 export default function MapelList() {
@@ -7,7 +7,7 @@ export default function MapelList() {
   const [editing, setEditing] = useState(null);
 
   const fetchMapel = async () => {
-    const res = await axios.get('http://localhost:8000/api/mata-pelajaran');
+    const res = await api.get('/mata-pelajaran');
     setList(res.data);
   };
 
@@ -15,9 +15,9 @@ export default function MapelList() {
 
   const handleSubmit = async (data) => {
     if (editing) {
-      await axios.put(`http://localhost:8000/api/mata-pelajaran/${editing.id}`, data);
+      await api.put(`/mata-pelajaran/${editing.id}`, data);
     } else {
-      await axios.post('http://localhost:8000/api/mata-pelajaran', data);
+      await api.post('/mata-pelajaran', data);
     }
     setEditing(null);
     fetchMapel();
@@ -25,34 +25,54 @@ export default function MapelList() {
 
   const handleDelete = async (id) => {
     if (window.confirm('Yakin hapus?')) {
-      await axios.delete(`http://localhost:8000/api/mata-pelajaran/${id}`);
+      await api.delete(`/mata-pelajaran/${id}`);
       fetchMapel();
     }
   };
 
   return (
-    <div>
-      <h2>Data Mata Pelajaran</h2>
+    <div className="premium-card">
+      <div className="premium-header">
+        <div>
+          <h2 className="premium-title">Mata Pelajaran</h2>
+          <p className="premium-subtitle">Kelola data mata pelajaran dan KKM</p>
+        </div>
+      </div>
+      
       <MapelForm onSubmit={handleSubmit} selectedData={editing} onCancel={() => setEditing(null)} />
-      <table border="1" cellPadding="8">
-        <thead>
-          <tr>
-            <th>Kode</th><th>Nama Mapel</th><th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {list.map((item) => (
-            <tr key={item.id}>
-              <td>{item.kode_mapel}</td>
-              <td>{item.nama_mapel}</td>
-              <td>
-                <button onClick={() => setEditing(item)}>Edit</button>
-                <button onClick={() => handleDelete(item.id)}>Hapus</button>
-              </td>
+      
+      <div className="premium-table-wrapper">
+        <table className="premium-table">
+          <thead>
+            <tr>
+              <th>Kode</th>
+              <th>Nama Mapel</th>
+              <th>KKM</th>
+              <th width="150">Aksi</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {list.map((item) => (
+              <tr key={item.id}>
+                <td><strong>{item.kode}</strong></td>
+                <td>{item.nama}</td>
+                <td><span className="badge badge-A">{item.kkm}</span></td>
+                <td>
+                  <div className="action-buttons">
+                    <button className="btn-premium btn-secondary btn-icon" onClick={() => setEditing(item)}>✏️ Edit</button>
+                    <button className="btn-premium btn-danger btn-icon" onClick={() => handleDelete(item.id)}>🗑️</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+            {list.length === 0 && (
+              <tr>
+                <td colSpan="4" style={{ textAlign: 'center', color: '#64748b' }}>Belum ada data mata pelajaran</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

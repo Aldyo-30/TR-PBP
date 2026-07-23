@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Nilai;
 use App\Models\Siswa;
@@ -10,6 +10,7 @@ use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 
 class NilaiController extends Controller
 {
@@ -22,32 +23,40 @@ class NilaiController extends Controller
 
     /**
      * GET /api/nilai
-     * List nilai per kelas, per mata pelajaran, per semester (tahun_ajaran).
-     * Guru hanya boleh melihat nilai untuk kelas yang ia ampu (via mapel yang diampu / wali kelas).
+     * List nilai per kelas, per semester (tahun_ajaran). 
+     * Mendukung filter opsional per siswa atau per mapel.
      */
     public function index(Request $request)
     {
         $request->validate([
             'kelas_id'           => 'required|exists:kelas,id',
-            'mata_pelajaran_id'  => 'required|exists:mata_pelajaran,id',
             'tahun_ajaran_id'    => 'required|exists:tahun_ajaran,id',
+            'mata_pelajaran_id'  => 'nullable|exists:mata_pelajaran,id',
+            'siswa_id'           => 'nullable|exists:siswa,id',
         ]);
 
         $user = Auth::user();
 
-        // Otorisasi: guru hanya bisa akses kelas/mapel yang ia ampu
-        if ($user->isGuru()) {
+        // Otorisasi jika ada filter mapel spesifik
+        if ($user->isGuru() && $request->has('mata_pelajaran_id')) {
             $this->authorizeGuruForKelasMapel($user, $request->kelas_id, $request->mata_pelajaran_id);
         }
 
-        $nilai = Nilai::with(['siswa:id,nis,nama,kelas_id', 'mataPelajaran:id,kode,nama,kkm'])
-            ->where('kelas_id', $request->kelas_id)
-            ->where('mata_pelajaran_id', $request->mata_pelajaran_id)
-            ->where('tahun_ajaran_id', $request->tahun_ajaran_id)
+        $query = Nilai::with(['siswa:id,nis,nama,kelas_id', 'mataPelajaran:id,kode,nama,kkm', 'kelas:id,nama_kelas'])
+            ->where('nilai.kelas_id', $request->kelas_id)
+            ->where('nilai.tahun_ajaran_id', $request->tahun_ajaran_id)
             ->join('siswa', 'siswa.id', '=', 'nilai.siswa_id')
             ->orderBy('siswa.nama')
-            ->select('nilai.*')
-            ->get();
+            ->select('nilai.*');
+
+        if ($request->has('mata_pelajaran_id') && $request->mata_pelajaran_id) {
+            $query->where('nilai.mata_pelajaran_id', $request->mata_pelajaran_id);
+        }
+        if ($request->has('siswa_id') && $request->siswa_id) {
+            $query->where('nilai.siswa_id', $request->siswa_id);
+        }
+
+        $nilai = $query->get();
 
         return response()->json([
             'data' => $nilai,
@@ -56,55 +65,59 @@ class NilaiController extends Controller
 
     /**
      * POST /api/nilai
-     * Input nilai baru. Auto-calculate nilai_akhir & predikat.
-     * Menggunakan updateOrCreate agar aman jika nilai untuk kombinasi
-     * siswa+mapel+tahun_ajaran+kelas sudah ada (idempotent input).
+     * Bulk Input nilai baru (Grid/Spreadsheet system per siswa).
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'siswa_id'           => 'required|exists:siswa,id',
-            'mata_pelajaran_id'  => 'required|exists:mata_pelajaran,id',
             'tahun_ajaran_id'    => 'required|exists:tahun_ajaran,id',
             'kelas_id'           => 'required|exists:kelas,id',
-            'nilai_tugas'        => 'required|numeric|min:0|max:100',
-            'nilai_uts'          => 'required|numeric|min:0|max:100',
-            'nilai_uas'          => 'required|numeric|min:0|max:100',
-            'catatan'            => 'nullable|string',
+            'data_nilai'         => 'required|array',
+            'data_nilai.*.mata_pelajaran_id' => 'required|exists:mata_pelajaran,id',
+            'data_nilai.*.nilai_tugas'       => 'required|numeric|min:0|max:100',
+            'data_nilai.*.nilai_uts'         => 'required|numeric|min:0|max:100',
+            'data_nilai.*.nilai_uas'         => 'required|numeric|min:0|max:100',
+            'data_nilai.*.catatan'           => 'nullable|string',
         ]);
 
         $user = Auth::user();
-        if ($user->isGuru()) {
-            $this->authorizeGuruForKelasMapel($user, $validated['kelas_id'], $validated['mata_pelajaran_id']);
+        $insertedCount = 0;
+
+        foreach ($validated['data_nilai'] as $item) {
+            // Cek otorisasi per mapel
+            if ($user->isGuru()) {
+                $this->authorizeGuruForKelasMapel($user, $validated['kelas_id'], $item['mata_pelajaran_id']);
+            }
+
+            [$nilaiAkhir, $predikat] = $this->hitungNilaiAkhirDanPredikat(
+                $item['nilai_tugas'],
+                $item['nilai_uts'],
+                $item['nilai_uas'],
+                $item['mata_pelajaran_id']
+            );
+
+            Nilai::updateOrCreate(
+                [
+                    'siswa_id'          => $validated['siswa_id'],
+                    'mata_pelajaran_id' => $item['mata_pelajaran_id'],
+                    'tahun_ajaran_id'   => $validated['tahun_ajaran_id'],
+                    'kelas_id'          => $validated['kelas_id'],
+                ],
+                [
+                    'nilai_tugas' => $item['nilai_tugas'],
+                    'nilai_uts'   => $item['nilai_uts'],
+                    'nilai_uas'   => $item['nilai_uas'],
+                    'nilai_akhir' => $nilaiAkhir,
+                    'predikat'    => $predikat,
+                    'catatan'     => $item['catatan'] ?? null,
+                ]
+            );
+            $insertedCount++;
         }
 
-        [$nilaiAkhir, $predikat] = $this->hitungNilaiAkhirDanPredikat(
-            $validated['nilai_tugas'],
-            $validated['nilai_uts'],
-            $validated['nilai_uas'],
-            $validated['mata_pelajaran_id']
-        );
-
-        $nilai = Nilai::updateOrCreate(
-            [
-                'siswa_id'          => $validated['siswa_id'],
-                'mata_pelajaran_id' => $validated['mata_pelajaran_id'],
-                'tahun_ajaran_id'   => $validated['tahun_ajaran_id'],
-                'kelas_id'          => $validated['kelas_id'],
-            ],
-            [
-                'nilai_tugas' => $validated['nilai_tugas'],
-                'nilai_uts'   => $validated['nilai_uts'],
-                'nilai_uas'   => $validated['nilai_uas'],
-                'nilai_akhir' => $nilaiAkhir,
-                'predikat'    => $predikat,
-                'catatan'     => $validated['catatan'] ?? null,
-            ]
-        );
-
         return response()->json([
-            'message' => 'Nilai berhasil disimpan',
-            'data'    => $nilai,
+            'message' => "Berhasil menyimpan nilai untuk $insertedCount mata pelajaran.",
         ], 201);
     }
 
@@ -282,55 +295,4 @@ class NilaiController extends Controller
         abort_if(!$isWaliKelas && !$mengampuMapel, 403, 'Anda tidak berwenang mengakses data ini.');
     }
 
-
-    public function index(Request $request)
-    {
-        $query = Nilai::with(['mataPelajaran', 'tahunAjaran']);
-
-        if ($request->has('tahun_ajaran_id')) {
-            $query->where('tahun_ajaran_id', $request->tahun_ajaran_id);
-        }
-        if ($request->has('mata_pelajaran_id')) {
-            $query->where('mata_pelajaran_id', $request->mata_pelajaran_id);
-        }
-
-        return response()->json($query->get());
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nama_siswa' => 'required|string',
-            'mata_pelajaran_id' => 'required|exists:mata_pelajaran,id',
-            'tahun_ajaran_id' => 'required|exists:tahun_ajaran,id',
-            'nilai_tugas' => 'required|numeric|min:0|max:100',
-            'nilai_uts' => 'required|numeric|min:0|max:100',
-            'nilai_uas' => 'required|numeric|min:0|max:100',
-        ]);
-
-        $nilai = new Nilai($validated);
-        $nilai->nilai_akhir = $nilai->hitungNilaiAkhir();
-        $nilai->predikat = $nilai->getPredikat($nilai->nilai_akhir);
-        $nilai->save();
-
-        return response()->json($nilai->load(['mataPelajaran', 'tahunAjaran']), 201);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $nilai = Nilai::findOrFail($id);
-        $validated = $request->validate([
-            'nama_siswa' => 'required|string',
-            'nilai_tugas' => 'required|numeric|min:0|max:100',
-            'nilai_uts' => 'required|numeric|min:0|max:100',
-            'nilai_uas' => 'required|numeric|min:0|max:100',
-        ]);
-
-        $nilai->fill($validated);
-        $nilai->nilai_akhir = $nilai->hitungNilaiAkhir();
-        $nilai->predikat = $nilai->getPredikat($nilai->nilai_akhir);
-        $nilai->save();
-
-        return response()->json($nilai->load(['mataPelajaran', 'tahunAjaran']));
-    }
 }

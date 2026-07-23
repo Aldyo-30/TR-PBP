@@ -35,6 +35,11 @@ import GuruList from './pages/guru/GuruList';
 import SiswaList from './pages/siswa/SiswaList';
 import KelasList from './pages/kelas/KelasList';
 
+// Pages — JOSAN
+import MapelList from './pages/mapel/MapelList';
+import TahunAjaranList from './pages/tahun-ajaran/TahunAjaranList';
+import InputNilai from './pages/nilai/InputNilai';
+
 function App() {
   return (
     <Router>
@@ -108,64 +113,37 @@ function App() {
             }
           />
 
-          {/* Mata Pelajaran — JOSAN's page (placeholder) */}
+          {/* Mata Pelajaran — JOSAN's page */}
           <Route
             path="/mapel"
             element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <MainLayout>
-                  <div className="page-container">
-                    <div className="page-header">
-                      <h1 className="page-title">Halaman Mata Pelajaran</h1>
-                      <p className="page-description">Halaman ini akan dikerjakan oleh JOSAN.</p>
-                    </div>
-                    <div className="card placeholder-card">
-                      <span className="placeholder-emoji">📚</span>
-                      <p>Modul Mata Pelajaran — Coming Soon</p>
-                    </div>
-                  </div>
+                  <MapelList />
                 </MainLayout>
               </ProtectedRoute>
             }
           />
 
-          {/* Tahun Ajaran — JOSAN's page (placeholder) */}
+          {/* Tahun Ajaran — JOSAN's page */}
           <Route
             path="/tahun-ajaran"
             element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <MainLayout>
-                  <div className="page-container">
-                    <div className="page-header">
-                      <h1 className="page-title">Halaman Tahun Ajaran</h1>
-                      <p className="page-description">Halaman ini akan dikerjakan oleh JOSAN.</p>
-                    </div>
-                    <div className="card placeholder-card">
-                      <span className="placeholder-emoji">📅</span>
-                      <p>Modul Tahun Ajaran — Coming Soon</p>
-                    </div>
-                  </div>
+                  <TahunAjaranList />
                 </MainLayout>
               </ProtectedRoute>
             }
           />
 
-          {/* Input Nilai — JOSAN's page (placeholder) */}
+          {/* Input Nilai — JOSAN's page */}
           <Route
             path="/nilai"
             element={
               <ProtectedRoute>
                 <MainLayout>
-                  <div className="page-container">
-                    <div className="page-header">
-                      <h1 className="page-title">Halaman Input Nilai</h1>
-                      <p className="page-description">Halaman ini akan dikerjakan oleh JOSAN.</p>
-                    </div>
-                    <div className="card placeholder-card">
-                      <span className="placeholder-emoji">✏️</span>
-                      <p>Modul Input Nilai — Coming Soon</p>
-                    </div>
-                  </div>
+                  <InputNilai />
                 </MainLayout>
               </ProtectedRoute>
             }

@@ -43,7 +43,8 @@ const Dashboard = () => {
     const fetchDashboard = async () => {
       try {
         const response = await api.get('/dashboard');
-        setStats(response.data);
+        // Backend Laravel mereturn { success: true, data: { ... } }
+        setStats(response.data.data || response.data);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
       } finally {
@@ -81,7 +82,9 @@ const Dashboard = () => {
     },
     {
       label: 'Tahun Ajaran Aktif',
-      value: stats.tahun_ajaran_aktif,
+      value: stats.tahun_ajaran_aktif 
+        ? `${stats.tahun_ajaran_aktif.tahun} - ${stats.tahun_ajaran_aktif.semester}` 
+        : <span style={{ fontSize: '18px', color: '#ef4444' }}>Belum ada yang aktif</span>,
       icon: <FiCalendar size={28} />,
       gradient: 'stat-card-orange',
       color: '#f59e0b',
@@ -190,10 +193,6 @@ const Dashboard = () => {
               <span className="dashboard-info-value">
                 <span className="badge badge-admin">Administrator</span>
               </span>
-            </div>
-            <div className="dashboard-info-row">
-              <span className="dashboard-info-label">Versi Aplikasi</span>
-              <span className="dashboard-info-value">v1.0.0</span>
             </div>
           </div>
         </div>

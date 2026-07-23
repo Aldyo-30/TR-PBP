@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f1f5f9; /* Mengganti gradient gelap dengan abu-abu terang */
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #1e1b4b 60%, #312e81 100%);
   position: relative;
   overflow: hidden;
   padding: 20px;
@@ -23,7 +23,6 @@
 
 /* ---- Animated Background Shapes ---- */
 .login-bg-shapes {
-  display: none; 
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -80,42 +79,22 @@
 }
 
 
-/* ---- Login Card ---- */
+/* ---- Login Card (Glassmorphism) ---- */
 .login-card {
   width: 100%;
   max-width: 440px;
-  background: #ffffff; /* Ubah ke warna solid putih */
-  border: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
   padding: 44px 36px 32px;
   position: relative;
   z-index: 10;
   animation: loginEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
-  transition: transform 220ms var(--transition-fast), box-shadow 220ms var(--transition-fast);
-}
-
-.login-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 18px 40px rgba(59, 130, 246, 0.12);
-}
-
-.login-input {
-  width: 100%;
-  padding: 13px 14px 13px 44px;
-  background: #f8fafc; /* Latar input terang */
-  border: 1px solid #cbd5e1; /* Border input jelas */
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  color: #1e293b; /* Teks ketikan gelap */
-  transition: box-shadow 180ms var(--transition-fast), border-color 180ms var(--transition-fast), transform 180ms var(--transition-fast);
-}
-
-.login-input:focus {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-  transform: translateY(-1px);
+  box-shadow: 
+    0 24px 48px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
 @keyframes loginEntrance {
@@ -155,13 +134,13 @@
 .login-title {
   font-size: 26px;
   font-weight: 700;
-  color: #1e293b; 
+  color: var(--text-white);
   letter-spacing: -0.01em;
 }
 
 .login-subtitle {
   font-size: 14px;
-  color: #64748b; 
+  color: rgba(255, 255, 255, 0.5);
   margin-top: 6px;
 }
 
@@ -201,8 +180,8 @@
 
 .login-label {
   font-size: 13px;
-  font-weight: 600;
-  color: #475569; 
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
   margin-bottom: 8px;
 }
 
@@ -225,11 +204,11 @@
 .login-input {
   width: 100%;
   padding: 13px 14px 13px 44px;
-  background: #f8fafc; /* Latar input terang */
-  border: 1px solid #cbd5e1; /* Border input jelas */
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-sm);
   font-size: 14px;
-  color: #1e293b; /* Teks ketikan gelap */
+  color: var(--text-white);
   transition: var(--transition);
 }
 
@@ -245,7 +224,7 @@
 }
 
 .login-input::placeholder {
-  color: #94a3b8; 
+  color: rgba(255, 255, 255, 0.25);
 }
 
 .login-password-toggle {
@@ -412,39 +391,6 @@
 
 
 /* ---- Responsive ---- */
-@media (max-width: 768px) {
-  .login-page {
-    padding: 16px;
-  }
-
-  .login-card {
-    max-width: 480px;
-    padding: 32px 28px 28px;
-  }
-
-  .login-header {
-    margin-bottom: 24px;
-  }
-
-  .login-title {
-    font-size: 24px;
-  }
-
-  .login-subtitle {
-    font-size: 13px;
-  }
-
-  .login-input {
-    padding: 12px 14px 12px 44px;
-    font-size: 14px;
-  }
-
-  .login-btn {
-    padding: 13px;
-    font-size: 14px;
-  }
-}
-
 @media (max-width: 480px) {
   .login-card {
     padding: 32px 24px 24px;

@@ -9,7 +9,8 @@
   /* 1. Sembunyikan elemen UI Aplikasi */
   .sidebar, 
   .header, 
-  .btn, 
+  .btn,
+  .btn-premium, 
   .modal-overlay,
   .no-print {
     display: none !important;
@@ -66,26 +67,52 @@
   }
 
   /* 4. Tabel Nilai Cetak (Hitam Putih) */
-  .print-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    page-break-inside: auto; /* Mencegah tabel terpotong di tengah baris */
+  .premium-table, .print-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-bottom: 20px !important;
+    page-break-inside: auto !important; /* Mencegah tabel terpotong di tengah baris */
   }
 
+  .premium-table tr {
+    page-break-inside: avoid !important;
+    page-break-after: auto !important;
+  }
+
+  .premium-table th, .premium-table td,
   .print-table th, .print-table td {
     border: 1px solid black !important;
-    padding: 8px !important;
+    padding: 10px !important;
     color: black !important;
     background: transparent !important;
   }
 
-  .print-table th {
-    font-weight: bold;
-    text-align: center;
+  .premium-table th, .print-table th {
+    font-weight: bold !important;
+    text-align: center !important;
     background-color: #f0f0f0 !important; /* Abu-abu tipis untuk header cetak */
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Reset tampilan kertas/document wrapper */
+  .paper-document {
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  
+  .premium-table-wrapper {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 1.5cm;
   }
 
   /* 5. Area Tanda Tangan */
@@ -116,6 +143,7 @@
 @media (max-width: 768px) {
   body { font-size: 11pt; }
   .kop-surat-text h1 { font-size: 14pt; }
+  .premium-table th, .premium-table td,
   .print-table th, .print-table td { padding: 6px !important; }
 }
 

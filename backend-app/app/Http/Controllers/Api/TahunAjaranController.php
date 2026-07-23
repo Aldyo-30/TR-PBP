@@ -16,7 +16,7 @@ class TahunAjaranController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'tahun_ajaran' => 'required|string',
+            'tahun' => 'required|string',
             'semester' => 'required|in:Ganjil,Genap',
         ]);
 
@@ -28,7 +28,7 @@ class TahunAjaranController extends Controller
     {
         $ta = TahunAjaran::findOrFail($id);
         $validated = $request->validate([
-            'tahun_ajaran' => 'required|string',
+            'tahun' => 'required|string',
             'semester' => 'required|in:Ganjil,Genap',
         ]);
 
@@ -44,10 +44,16 @@ class TahunAjaranController extends Controller
 
     public function toggleActive($id)
     {
-        TahunAjaran::query()->update(['is_active' => false]);
         $ta = TahunAjaran::findOrFail($id);
-        $ta->update(['is_active' => true]);
+        $newState = !$ta->is_active;
 
-        return response()->json(['message' => 'Tahun ajaran aktif diubah', 'data' => $ta]);
+        if ($newState) {
+            // Jika mau diaktifkan, matikan yang lain dulu
+            TahunAjaran::query()->update(['is_active' => false]);
+        }
+
+        $ta->update(['is_active' => $newState]);
+
+        return response()->json(['message' => 'Status tahun ajaran berhasil diubah', 'data' => $ta]);
     }
 }
