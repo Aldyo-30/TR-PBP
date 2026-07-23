@@ -12,6 +12,7 @@
 import { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import LoadingSpinner from '../common/LoadingSpinner';
+import { FiSave, FiX } from 'react-icons/fi';
 
 const SiswaForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
   const [classes, setClasses] = useState([]);
@@ -222,12 +223,12 @@ const SiswaForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
       </div>
 
       {/* Actions */}
-      <div className="modal-actions">
-        <button className="btn btn-outline" type="button" onClick={onCancel} disabled={loading}>
-          Batal
+      <div className="modal-actions" style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
+        <button className="btn btn-secondary" type="button" onClick={onCancel} disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 24px', fontSize: '14px' }}>
+          <FiX /> Batal
         </button>
-        <button className="btn btn-primary" type="submit" disabled={loading}>
-          {loading ? 'Menyimpan...' : 'Simpan Data'}
+        <button className="btn btn-primary" type="submit" disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 24px', fontSize: '14px' }}>
+          <FiSave /> {loading ? 'Menyimpan...' : 'Simpan Data Siswa'}
         </button>
       </div>
     </form>

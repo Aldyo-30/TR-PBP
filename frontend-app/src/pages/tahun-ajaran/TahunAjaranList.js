@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import TahunAjaranForm from '../../components/forms/TahunAjaranForm';
+import { FiEdit, FiTrash2, FiCheckCircle, FiXCircle } from 'react-icons/fi';
 
 export default function TahunAjaranList() {
   const [list, setList] = useState([]);
@@ -36,60 +37,65 @@ export default function TahunAjaranList() {
   };
 
   return (
-    <div className="premium-card">
-      <div className="premium-header">
-        <div>
-          <h2 className="premium-title">Tahun Ajaran</h2>
-          <p className="premium-subtitle">Kelola tahun ajaran dan semester aktif</p>
-        </div>
+    <div className="card" style={{ padding: '24px' }}>
+      <div style={{ marginBottom: '20px' }}>
+        <h2 style={{ margin: 0, fontSize: '20px', color: 'var(--text-primary)' }}>Tahun Ajaran</h2>
+        <p style={{ margin: '4px 0 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Kelola tahun ajaran dan semester aktif</p>
       </div>
       
       <TahunAjaranForm onSubmit={handleSubmit} selectedData={editing} onCancel={() => setEditing(null)} />
       
-      <div className="premium-table-wrapper">
-        <table className="premium-table">
+      <div className="table-wrapper" style={{ marginTop: '20px' }}>
+        <table className="table">
           <thead>
             <tr>
               <th>Tahun</th>
               <th>Semester</th>
               <th>Status</th>
-              <th width="220">Aksi</th>
+              <th width="280" style={{ textAlign: 'center' }}>Aksi</th>
             </tr>
           </thead>
           <tbody>
             {list.map((item) => (
-              <tr key={item.id}>
+              <tr key={item.id} style={{ background: item.is_active ? '#f0fdf4' : 'transparent' }}>
                 <td><strong>{item.tahun}</strong></td>
                 <td>{item.semester}</td>
                 <td>
-                  <span className={`badge ${item.is_active ? 'badge-aktif' : 'badge-nonaktif'}`}>
-                    {item.is_active ? '✅ Sedang Aktif' : 'Tidak Aktif'}
+                  <span style={{
+                    background: item.is_active ? '#dcfce7' : '#f1f5f9',
+                    color: item.is_active ? '#166534' : '#64748b',
+                    padding: '4px 10px', borderRadius: '4px',
+                    fontSize: '13px', fontWeight: '600',
+                    display: 'inline-flex', alignItems: 'center', gap: '4px'
+                  }}>
+                    {item.is_active ? <><FiCheckCircle /> Sedang Aktif</> : 'Tidak Aktif'}
                   </span>
                 </td>
                 <td>
-                  <div className="action-buttons">
+                  <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                     <button 
-                      className={`btn-premium btn-icon ${item.is_active ? 'btn-danger' : 'btn-success'}`} 
+                      className={`btn ${item.is_active ? 'btn-danger' : 'btn-primary'}`} 
                       onClick={() => handleToggle(item.id)}
                       title={item.is_active ? "Matikan Semester Ini" : "Aktifkan Semester Ini"}
-                      style={{ minWidth: '100px' }}
+                      style={{ padding: '6px 12px', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px', minWidth: '100px', justifyContent: 'center' }}
                     >
-                      {item.is_active ? '🛑 Matikan' : '⚡ Aktifkan'}
+                      {item.is_active ? <><FiXCircle /> Matikan</> : <><FiCheckCircle /> Aktifkan</>}
                     </button>
                     <button 
-                      className="btn-premium btn-secondary btn-icon" 
+                      className="btn btn-secondary" 
                       onClick={() => setEditing(item)}
                       title="Edit"
+                      style={{ padding: '6px 10px', display: 'flex', alignItems: 'center' }}
                     >
-                      ✏️
+                      <FiEdit />
                     </button>
                     <button 
-                      className="btn-premium btn-secondary btn-icon" 
+                      className="btn btn-danger" 
                       onClick={() => handleDelete(item.id)}
                       title="Hapus"
-                      style={{ color: '#ef4444' }}
+                      style={{ padding: '6px 10px', display: 'flex', alignItems: 'center' }}
                     >
-                      🗑️
+                      <FiTrash2 />
                     </button>
                   </div>
                 </td>
@@ -97,7 +103,7 @@ export default function TahunAjaranList() {
             ))}
             {list.length === 0 && (
               <tr>
-                <td colSpan="4" style={{ textAlign: 'center', color: '#64748b' }}>Belum ada data tahun ajaran</td>
+                <td colSpan="4" style={{ textAlign: 'center', color: '#64748b', padding: '24px' }}>Belum ada data tahun ajaran</td>
               </tr>
             )}
           </tbody>

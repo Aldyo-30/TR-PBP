@@ -227,24 +227,22 @@ const KelasList = () => {
   ];
 
   const renderActions = (item) => (
-    <>
+    <div style={{ display: 'flex', gap: '8px' }}>
       <button
-        className="btn btn-outline-info btn-sm"
+        className="btn-icon btn-icon-edit"
         onClick={() => openEditModal(item)}
         title="Edit Kelas"
-        style={{ padding: '0.35rem' }}
       >
-        <FiEdit2 size={14} />
+        <FiEdit2 size={16} />
       </button>
       <button
-        className="btn btn-outline-danger btn-sm"
+        className="btn-icon btn-icon-delete"
         onClick={() => openDeleteDialog(item)}
         title="Hapus Kelas"
-        style={{ padding: '0.35rem' }}
       >
-        <FiTrash2 size={14} />
+        <FiTrash2 size={16} />
       </button>
-    </>
+    </div>
   );
 
   if (loading && classes.length === 0) {

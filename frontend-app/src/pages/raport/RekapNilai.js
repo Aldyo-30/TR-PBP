@@ -66,18 +66,16 @@ const RekapNilai = () => {
   }, [filter.kelas_id, filter.tahun_ajaran_id, navigate]);
 
   return (
-    <div className="premium-card">
-      <div className="premium-header">
-        <div>
-          <h1 className="premium-title">🏅 Leaderboard & Rekap Nilai</h1>
-          <p className="premium-subtitle">Peringkat siswa berdasarkan nilai rata-rata tertinggi di kelas</p>
-        </div>
+    <div className="card" style={{ padding: '24px' }}>
+      <div style={{ marginBottom: '24px' }}>
+        <h2 style={{ margin: 0, fontSize: '20px', color: 'var(--text-primary)' }}>🏅 Leaderboard & Rekap Nilai</h2>
+        <p style={{ margin: '4px 0 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Peringkat siswa berdasarkan nilai rata-rata tertinggi di kelas</p>
       </div>
 
       {/* FILTER SECTION */}
-      <div style={{ background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '24px' }}>
-        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', color: '#1e293b' }}>Filter Leaderboard</h3>
-        <div className="premium-form-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+      <div className="card" style={{ padding: '20px', marginBottom: '24px', background: '#f8fafc', boxShadow: 'none' }}>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '15px', color: '#334155', fontWeight: '600' }}>Filter Leaderboard</h3>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
           <div className="form-group">
             <label>Tahun Ajaran</label>
             <select className="form-input" value={filter.tahun_ajaran_id} onChange={(e) => setFilter({ ...filter, tahun_ajaran_id: e.target.value })}>
@@ -106,15 +104,15 @@ const RekapNilai = () => {
           {error && <div style={{ textAlign: 'center', color: '#ef4444', padding: '40px', background: '#fee2e2', borderRadius: '12px' }}>⚠️ {error}</div>}
 
           {!loading && !error && (
-            <div className="premium-table-wrapper" style={{ boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}>
-              <table className="premium-table">
+            <div className="table-wrapper" style={{ boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}>
+              <table className="table">
                 <thead>
-                  <tr>
-                    <th>Rank</th>
-                    <th>NIS</th>
-                    <th>Nama Siswa</th>
-                    <th style={{ textAlign: 'center' }}>Jumlah Mapel Dinilai</th>
-                    <th style={{ textAlign: 'center' }}>Nilai Rata-rata</th>
+                  <tr style={{ background: '#f1f5f9' }}>
+                    <th style={{ padding: '16px' }}>Rank</th>
+                    <th style={{ padding: '16px' }}>NIS</th>
+                    <th style={{ padding: '16px' }}>Nama Siswa</th>
+                    <th style={{ textAlign: 'center', padding: '16px' }}>Jumlah Mapel Dinilai</th>
+                    <th style={{ textAlign: 'center', padding: '16px' }}>Nilai Rata-rata</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -129,20 +127,44 @@ const RekapNilai = () => {
                     const rank = row.ranking ?? row.rank ?? (idx + 1);
                     let rowClass = '';
                     let medal = '';
-                    if (rank === 1) { rowClass = 'leaderboard-row-1'; medal = '🥇'; }
-                    else if (rank === 2) { rowClass = 'leaderboard-row-2'; medal = '🥈'; }
-                    else if (rank === 3) { rowClass = 'leaderboard-row-3'; medal = '🥉'; }
+                    let rowStyle = { transition: 'all 0.3s' };
+                    
+                    if (rank === 1) { 
+                      medal = '🏆';
+                      rowStyle = { ...rowStyle, background: 'linear-gradient(to right, #fef3c7, #fde68a)', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' };
+                    }
+                    else if (rank === 2) { 
+                      medal = '🥈'; 
+                      rowStyle = { ...rowStyle, background: 'linear-gradient(to right, #f1f5f9, #e2e8f0)', boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.06)' };
+                    }
+                    else if (rank === 3) { 
+                      medal = '🥉'; 
+                      rowStyle = { ...rowStyle, background: 'linear-gradient(to right, #ffedd5, #fed7aa)', boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.06)' };
+                    }
 
                     return (
-                      <tr key={idx} className={rowClass} style={{ transition: 'all 0.3s' }}>
-                        <td style={{ fontSize: rank <= 3 ? '18px' : '14px', fontWeight: rank <= 3 ? 'bold' : 'normal' }}>
-                          {medal && <span className="medal">{medal}</span>} 
-                          {rank > 3 && `#${rank}`}
+                      <tr key={idx} className={rowClass} style={rowStyle}>
+                        <td style={{ fontSize: rank <= 3 ? '18px' : '15px', fontWeight: rank <= 3 ? 'bold' : '600', padding: '16px' }}>
+                          {medal && <span style={{ fontSize: '24px', marginRight: '8px', verticalAlign: 'middle' }}>{medal}</span>} 
+                          {rank > 3 && <span style={{ color: '#64748b' }}>#{rank}</span>}
                         </td>
-                        <td>{row.nis ?? '-'}</td>
-                        <td><strong style={{ fontSize: rank === 1 ? '16px' : '14px' }}>{row.nama ?? row.student_name ?? row.name ?? '-'}</strong></td>
-                        <td style={{ textAlign: 'center' }}>{row.jumlah_mapel ?? row.mapel_count ?? '-'}</td>
-                        <td style={{ textAlign: 'center', fontSize: '16px', fontWeight: 'bold', color: rank === 1 ? '#d97706' : '#1e293b' }}>
+                        <td style={{ padding: '16px' }}>{row.nis ?? '-'}</td>
+                        <td style={{ padding: '16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: rank === 1 ? '#d97706' : (rank === 2 ? '#475569' : (rank === 3 ? '#b45309' : '#cbd5e1')), display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold', fontSize: '14px' }}>
+                              {(row.nama ?? row.student_name ?? row.name ?? 'A').charAt(0).toUpperCase()}
+                            </div>
+                            <strong style={{ fontSize: rank <= 3 ? '16px' : '15px', color: '#1e293b' }}>
+                              {row.nama ?? row.student_name ?? row.name ?? '-'}
+                            </strong>
+                          </div>
+                        </td>
+                        <td style={{ textAlign: 'center', padding: '16px' }}>
+                          <span style={{ background: '#f1f5f9', padding: '4px 10px', borderRadius: '12px', fontSize: '13px', color: '#475569', fontWeight: '600' }}>
+                            {row.jumlah_mapel ?? row.mapel_count ?? '-'} Mapel
+                          </span>
+                        </td>
+                        <td style={{ textAlign: 'center', fontSize: rank <= 3 ? '18px' : '16px', fontWeight: 'bold', color: rank === 1 ? '#b45309' : '#0f172a', padding: '16px' }}>
                           {row.rata_rata ?? row.avg ?? '-'}
                         </td>
                       </tr>

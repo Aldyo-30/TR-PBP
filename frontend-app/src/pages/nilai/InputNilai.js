@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
+import { FiEdit3, FiPrinter, FiSave, FiArrowLeft } from 'react-icons/fi';
 
 export default function InputNilai() {
   const navigate = useNavigate();
@@ -141,20 +142,18 @@ export default function InputNilai() {
   const totalMapel = mapelList.length;
 
   return (
-    <div className="premium-card">
-      <div className="premium-header">
-        <div>
-          <h2 className="premium-title">Input Nilai Per Siswa</h2>
-          <p className="premium-subtitle">
-            {selectedSiswa ? `Mengisi nilai untuk: ${selectedSiswa.nama}` : 'Pilih Tahun Ajaran dan Kelas untuk melihat daftar siswa'}
-          </p>
-        </div>
+    <div className="card" style={{ padding: '24px' }}>
+      <div style={{ marginBottom: '24px' }}>
+        <h2 style={{ margin: 0, fontSize: '20px', color: 'var(--text-primary)' }}>Input Nilai Per Siswa</h2>
+        <p style={{ margin: '4px 0 0', fontSize: '14px', color: 'var(--text-secondary)' }}>
+          {selectedSiswa ? `Mengisi nilai untuk: ${selectedSiswa.nama}` : 'Pilih Tahun Ajaran dan Kelas untuk melihat daftar siswa'}
+        </p>
       </div>
 
       {!selectedSiswa && (
-        <div style={{ background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '24px' }}>
-          <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', color: '#1e293b' }}>Filter Data</h3>
-          <div className="premium-form-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+        <div className="card" style={{ padding: '20px', marginBottom: '24px', background: '#f8fafc', boxShadow: 'none' }}>
+          <h3 style={{ margin: '0 0 16px 0', fontSize: '15px', color: '#334155', fontWeight: '600' }}>Filter Data</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             <div className="form-group">
               <label>Tahun Ajaran</label>
               <select className="form-input" value={filter.tahun_ajaran_id} onChange={(e) => setFilter({ ...filter, tahun_ajaran_id: e.target.value })}>
@@ -175,8 +174,8 @@ export default function InputNilai() {
 
       {/* TAHAP 1: Tabel Daftar Siswa */}
       {!selectedSiswa && filter.tahun_ajaran_id && filter.kelas_id && (
-        <div className="premium-table-wrapper">
-          <table className="premium-table">
+        <div className="table-wrapper">
+          <table className="table">
             <thead>
               <tr>
                 <th width="80">No</th>
@@ -199,27 +198,31 @@ export default function InputNilai() {
                     <td>{siswa.nis}</td>
                     <td><strong>{siswa.nama}</strong></td>
                     <td style={{ textAlign: 'center' }}>
-                      <span className={`badge ${badgeClass}`} style={{ fontSize: '14px', padding: '6px 12px' }}>
+                      <span style={{ 
+                        background: badgeClass === 'badge-A' ? '#dcfce7' : (badgeClass === 'badge-C' ? '#fef9c3' : '#fee2e2'),
+                        color: badgeClass === 'badge-A' ? '#166534' : (badgeClass === 'badge-C' ? '#854d0e' : '#991b1b'),
+                        padding: '4px 10px', borderRadius: '4px', fontSize: '13px', fontWeight: '600'
+                      }}>
                         {gradedCount} / {totalMapel} Mapel
                       </span>
                     </td>
                     <td style={{ textAlign: 'center' }}>
-                      <div className="action-buttons" style={{ justifyContent: 'center', flexWrap: 'nowrap' }}>
+                      <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                         <button 
-                          className="btn-premium btn-primary" 
+                          className="btn btn-primary" 
                           onClick={() => setSelectedSiswa(siswa)}
-                          style={{ padding: '8px 16px', fontSize: '13px', whiteSpace: 'nowrap' }}
+                          style={{ padding: '6px 12px', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}
                         >
-                          📝 Isi Nilai
+                          <FiEdit3 /> Isi Nilai
                         </button>
                         <button 
-                          className="btn-premium btn-secondary" 
+                          className="btn btn-secondary" 
                           onClick={() => navigate(`/raport/${siswa.id}?tahun_ajaran_id=${filter.tahun_ajaran_id}`)}
                           disabled={gradedCount === 0}
                           title={gradedCount === 0 ? "Belum ada nilai untuk dicetak" : "Cetak/Lihat Raport Fisik"}
-                          style={{ padding: '8px 16px', fontSize: '13px', whiteSpace: 'nowrap' }}
+                          style={{ padding: '6px 12px', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}
                         >
-                          🖨️ Raport
+                          <FiPrinter /> Raport
                         </button>
                       </div>
                     </td>
@@ -238,17 +241,17 @@ export default function InputNilai() {
 
       {/* TAHAP 2: Form Input Grid Seluruh Mapel untuk 1 Siswa */}
       {selectedSiswa && (
-        <div className="animate-fade-in">
+        <div className="animate-fade-in card" style={{ padding: '24px', boxShadow: 'none', background: '#f8fafc' }}>
           <button 
-            className="btn-premium btn-secondary" 
+            className="btn btn-secondary" 
             onClick={() => setSelectedSiswa(null)}
-            style={{ marginBottom: '20px' }}
+            style={{ marginBottom: '20px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
           >
-            🔙 Kembali ke Daftar Siswa
+            <FiArrowLeft /> Kembali ke Daftar Siswa
           </button>
           
-          <div className="premium-table-wrapper" style={{ overflowX: 'auto' }}>
-            <table className="premium-table">
+          <div className="table-wrapper" style={{ overflowX: 'auto' }}>
+            <table className="table">
               <thead>
                 <tr>
                   <th>No</th>
@@ -298,7 +301,15 @@ export default function InputNilai() {
                         />
                       </td>
                       <td style={{ textAlign: 'center' }}><strong>{mGrade.nilai_akhir ?? 0}</strong></td>
-                      <td style={{ textAlign: 'center' }}><span className={`badge badge-${mGrade.predikat ?? '-'}`}>{mGrade.predikat ?? '-'}</span></td>
+                      <td style={{ textAlign: 'center' }}>
+                        <span style={{ 
+                          background: mGrade.predikat === 'A' ? '#dcfce7' : (mGrade.predikat === 'B' ? '#dbeafe' : (mGrade.predikat === 'C' ? '#fef9c3' : '#fee2e2')),
+                          color: mGrade.predikat === 'A' ? '#166534' : (mGrade.predikat === 'B' ? '#1e40af' : (mGrade.predikat === 'C' ? '#854d0e' : '#991b1b')),
+                          padding: '4px 10px', borderRadius: '4px', fontSize: '13px', fontWeight: '700'
+                        }}>
+                          {mGrade.predikat ?? '-'}
+                        </span>
+                      </td>
                     </tr>
                   );
                 })}
@@ -306,17 +317,17 @@ export default function InputNilai() {
             </table>
           </div>
 
-          <div style={{ marginTop: '24px', textAlign: 'right', background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-            <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '16px' }}>
+          <div style={{ marginTop: '24px', textAlign: 'right', background: 'white', padding: '20px', borderRadius: '8px', border: '1px solid var(--border)' }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>
               ℹ️ Anda dapat mengosongi baris mata pelajaran yang belum ingin diinput.
             </p>
             <button 
-              className="btn-premium btn-primary" 
+              className="btn btn-primary" 
               onClick={handleBulkSubmit}
               disabled={isSaving}
-              style={{ padding: '14px 28px', fontSize: '16px', fontWeight: 'bold' }}
+              style={{ padding: '10px 24px', fontSize: '14px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
             >
-              {isSaving ? '⏳ Menyimpan...' : '💾 Simpan Raport Siswa'}
+              <FiSave /> {isSaving ? 'Menyimpan...' : 'Simpan Raport Siswa'}
             </button>
           </div>
         </div>

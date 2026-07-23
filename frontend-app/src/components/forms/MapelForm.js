@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FiSave, FiX } from 'react-icons/fi';
 
 export default function MapelForm({ onSubmit, selectedData, onCancel }) {
   const [formData, setFormData] = useState({ kode: '', nama: '', kkm: '' });
@@ -23,7 +24,7 @@ export default function MapelForm({ onSubmit, selectedData, onCancel }) {
         {selectedData ? 'Edit Mata Pelajaran' : 'Tambah Mata Pelajaran'}
       </h3>
       
-      <div className="premium-form-grid">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
         <div className="form-group">
           <label>Kode Mapel</label>
           <input
@@ -59,13 +60,13 @@ export default function MapelForm({ onSubmit, selectedData, onCancel }) {
         </div>
       </div>
       
-      <div className="action-buttons">
-        <button type="submit" className="btn-premium btn-success">
-          💾 {selectedData ? 'Update' : 'Simpan'}
+      <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
+        <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 24px', fontSize: '14px' }}>
+          <FiSave /> {selectedData ? 'Update Mata Pelajaran' : 'Simpan Mata Pelajaran'}
         </button>
         {selectedData && (
-          <button type="button" className="btn-premium btn-secondary" onClick={onCancel}>
-            Batal
+          <button type="button" className="btn btn-secondary" onClick={onCancel} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 24px', fontSize: '14px' }}>
+            <FiX /> Batal
           </button>
         )}
       </div>

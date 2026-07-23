@@ -80,7 +80,7 @@ const RaportView = () => {
   return (
     <div style={{ padding: '20px', background: '#e2e8f0', minHeight: '100vh' }}>
       <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-        <button className="btn-premium btn-primary" onClick={handlePrint}>
+        <button className="btn btn-primary" onClick={handlePrint} style={{ padding: '10px 24px', fontSize: '15px' }}>
           🖨️ Cetak Raport
         </button>
       </div>
@@ -110,8 +110,8 @@ const RaportView = () => {
           </div>
         </div>
 
-        <div className="premium-table-wrapper" style={{ border: '2px solid #1e293b' }}>
-          <table className="premium-table" style={{ borderCollapse: 'collapse' }}>
+        <div className="table-wrapper print-table-wrapper" style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
+          <table className="table print-table" style={{ borderCollapse: 'collapse', margin: 0 }}>
             <thead>
               <tr>
                 <th>No</th>
@@ -142,7 +142,13 @@ const RaportView = () => {
                     <td style={{ textAlign: 'center' }}>{s.nilai_uas ?? s.uas ?? '-'} </td>
                     <td style={{ textAlign: 'center', fontSize: '16px', fontWeight: 'bold' }}>{s.nilai_akhir ?? s.akhir ?? '-'}</td>
                     <td style={{ textAlign: 'center' }}>
-                      <span className={`badge badge-${s.predikat ?? 'D'}`}>{s.predikat ?? '-'}</span>
+                      <span style={{ 
+                          background: s.predikat === 'A' ? '#dcfce7' : (s.predikat === 'B' ? '#dbeafe' : (s.predikat === 'C' ? '#fef9c3' : '#fee2e2')),
+                          color: s.predikat === 'A' ? '#166534' : (s.predikat === 'B' ? '#1e40af' : (s.predikat === 'C' ? '#854d0e' : '#991b1b')),
+                          padding: '4px 10px', borderRadius: '4px', fontSize: '13px', fontWeight: '700'
+                        }}>
+                        {s.predikat ?? '-'}
+                      </span>
                     </td>
                   </tr>
                 );

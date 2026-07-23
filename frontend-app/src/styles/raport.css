@@ -9,8 +9,7 @@
   /* 1. Sembunyikan elemen UI Aplikasi */
   .sidebar, 
   .header, 
-  .btn,
-  .btn-premium, 
+  .btn, 
   .modal-overlay,
   .no-print {
     display: none !important;
@@ -67,52 +66,26 @@
   }
 
   /* 4. Tabel Nilai Cetak (Hitam Putih) */
-  .premium-table, .print-table {
-    width: 100% !important;
-    border-collapse: collapse !important;
-    margin-bottom: 20px !important;
-    page-break-inside: auto !important; /* Mencegah tabel terpotong di tengah baris */
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    page-break-inside: auto; /* Mencegah tabel terpotong di tengah baris */
   }
 
-  .premium-table tr {
-    page-break-inside: avoid !important;
-    page-break-after: auto !important;
-  }
-
-  .premium-table th, .premium-table td,
   .print-table th, .print-table td {
     border: 1px solid black !important;
-    padding: 10px !important;
+    padding: 8px !important;
     color: black !important;
     background: transparent !important;
   }
 
-  .premium-table th, .print-table th {
-    font-weight: bold !important;
-    text-align: center !important;
+  .print-table th {
+    font-weight: bold;
+    text-align: center;
     background-color: #f0f0f0 !important; /* Abu-abu tipis untuk header cetak */
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-
-  /* Reset tampilan kertas/document wrapper */
-  .paper-document {
-    padding: 0 !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-  
-  .premium-table-wrapper {
-    border: none !important;
-    box-shadow: none !important;
-  }
-
-  @page {
-    size: A4 portrait;
-    margin: 1.5cm;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   /* 5. Area Tanda Tangan */
@@ -139,11 +112,67 @@
   }
 }
 
+/* Screen styles for Raport Preview */
+.paper-document {
+  background: white;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  color: #1e293b;
+}
+
+.paper-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.paper-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #0f172a;
+}
+
+.paper-subtitle {
+  font-size: 16px;
+  color: #64748b;
+  margin: 0;
+}
+
+.student-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 30px;
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.info-item {
+  display: flex;
+  font-size: 14px;
+}
+
+.info-item .label {
+  font-weight: 600;
+  width: 100px;
+  color: #475569;
+}
+
+.info-item .value {
+  color: #1e293b;
+  flex: 1;
+}
+
 /* Screen responsive tweaks for printable layout preview */
 @media (max-width: 768px) {
   body { font-size: 11pt; }
   .kop-surat-text h1 { font-size: 14pt; }
-  .premium-table th, .premium-table td,
   .print-table th, .print-table td { padding: 6px !important; }
 }
 
