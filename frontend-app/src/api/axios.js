@@ -11,9 +11,11 @@
 
 import axios from 'axios';
 
-// Create axios instance with default config
+// Create axios instance with dynamic baseURL based on location
 const api = axios.create({
-  baseURL: 'http://backend-app.test/api',
+  baseURL: window.location.hostname === 'localhost' 
+    ? 'http://localhost:8000/api' 
+    : 'http://backend-app.test/api',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',

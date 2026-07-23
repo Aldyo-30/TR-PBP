@@ -28,6 +28,11 @@ import Dashboard from './pages/Dashboard';
 import UserList from './pages/users/UserList';
 import Profile from './pages/Profile';
 
+// Pages — KEVIN
+import GuruList from './pages/guru/GuruList';
+import SiswaList from './pages/siswa/SiswaList';
+import KelasList from './pages/kelas/KelasList';
+
 function App() {
   return (
     <Router>
@@ -65,64 +70,37 @@ function App() {
             }
           />
 
-          {/* Data Guru — KEVIN's page (placeholder) */}
+          {/* Data Guru — KEVIN's page */}
           <Route
             path="/guru"
             element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <MainLayout>
-                  <div className="page-container">
-                    <div className="page-header">
-                      <h1 className="page-title">Halaman Guru</h1>
-                      <p className="page-description">Halaman ini akan dikerjakan oleh KEVIN.</p>
-                    </div>
-                    <div className="card placeholder-card">
-                      <span className="placeholder-emoji">👨‍🏫</span>
-                      <p>Modul Data Guru — Coming Soon</p>
-                    </div>
-                  </div>
+                  <GuruList />
                 </MainLayout>
               </ProtectedRoute>
             }
           />
 
-          {/* Data Siswa — KEVIN's page (placeholder) */}
+          {/* Data Siswa — KEVIN's page */}
           <Route
             path="/siswa"
             element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <MainLayout>
-                  <div className="page-container">
-                    <div className="page-header">
-                      <h1 className="page-title">Halaman Siswa</h1>
-                      <p className="page-description">Halaman ini akan dikerjakan oleh KEVIN.</p>
-                    </div>
-                    <div className="card placeholder-card">
-                      <span className="placeholder-emoji">👨‍🎓</span>
-                      <p>Modul Data Siswa — Coming Soon</p>
-                    </div>
-                  </div>
+                  <SiswaList />
                 </MainLayout>
               </ProtectedRoute>
             }
           />
 
-          {/* Data Kelas — KEVIN's page (placeholder) */}
+          {/* Data Kelas — KEVIN's page */}
           <Route
             path="/kelas"
             element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <MainLayout>
-                  <div className="page-container">
-                    <div className="page-header">
-                      <h1 className="page-title">Halaman Kelas</h1>
-                      <p className="page-description">Halaman ini akan dikerjakan oleh KEVIN.</p>
-                    </div>
-                    <div className="card placeholder-card">
-                      <span className="placeholder-emoji">🏫</span>
-                      <p>Modul Data Kelas — Coming Soon</p>
-                    </div>
-                  </div>
+                  <KelasList />
                 </MainLayout>
               </ProtectedRoute>
             }

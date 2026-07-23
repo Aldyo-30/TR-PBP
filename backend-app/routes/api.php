@@ -4,6 +4,9 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\GuruController;
+use App\Http\Controllers\Api\KelasController;
+use App\Http\Controllers\Api\SiswaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,11 +52,10 @@ Route::middleware('auth:sanctum')->group(function () {
         // Manajemen User (ALDYO)
         Route::apiResource('users', UserController::class);
 
-        // ----------------------------------------------------------
-        // TODO: KEVIN — Tambahkan route Guru & Mata Pelajaran di sini
-        // Route::apiResource('guru', GuruController::class);
+        // Data Guru (KEVIN)
+        Route::apiResource('guru', GuruController::class);
+        
         // Route::apiResource('mata-pelajaran', MataPelajaranController::class);
-        // ----------------------------------------------------------
     });
 
     // ==================================================================
@@ -61,17 +63,16 @@ Route::middleware('auth:sanctum')->group(function () {
     // ==================================================================
     Route::middleware('role:admin,guru')->group(function () {
 
-        // ----------------------------------------------------------
-        // TODO: JOSAN — Tambahkan route Siswa & Kelas di sini
-        // Route::apiResource('siswa', SiswaController::class);
-        // Route::apiResource('kelas', KelasController::class);
-        // ----------------------------------------------------------
+        // Data Siswa & Kelas (KEVIN)
+        Route::apiResource('siswa', SiswaController::class);
+        Route::apiResource('kelas', KelasController::class);
 
         // ----------------------------------------------------------
-        // TODO: ARIL — Tambahkan route Nilai & Raport di sini
+        // TODO: JOSAN / ARIL — Tambahkan route Nilai & Raport di sini
         // Route::apiResource('nilai', NilaiController::class);
         // Route::get('/raport/{siswa}', [RaportController::class, 'show']);
         // Route::get('/raport/{siswa}/cetak', [RaportController::class, 'cetak']);
         // ----------------------------------------------------------
     });
 });
+
