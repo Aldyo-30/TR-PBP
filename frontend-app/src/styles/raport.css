@@ -1,0 +1,124 @@
+/**
+ * ============================================
+ * Raport / KHS Print Styles
+ * ============================================
+ * Dipanggil otomatis oleh browser saat melakukan print.
+ */
+
+@media print {
+  /* 1. Sembunyikan elemen UI Aplikasi */
+  .sidebar, 
+  .header, 
+  .btn, 
+  .modal-overlay,
+  .no-print {
+    display: none !important;
+  }
+
+  /* 2. Reset Layout ke ukuran kertas putih */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+    font-family: 'Times New Roman', Times, serif; /* Font resmi dokumen */
+  }
+
+  .layout-main, .layout-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  /* 3. Kop Surat Institusi */
+  .kop-surat {
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid black;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+  }
+
+  .kop-surat img.logo {
+    width: 80px;
+    height: auto;
+    margin-right: 20px;
+  }
+
+  .kop-surat-text {
+    flex: 1;
+    text-align: center;
+  }
+
+  .kop-surat-text h1, .kop-surat-text h2 {
+    margin: 0;
+    color: black;
+  }
+
+  .kop-surat-text h1 {
+    font-size: 16pt;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .kop-surat-text p {
+    margin: 2px 0;
+    font-size: 10pt;
+  }
+
+  /* 4. Tabel Nilai Cetak (Hitam Putih) */
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    page-break-inside: auto; /* Mencegah tabel terpotong di tengah baris */
+  }
+
+  .print-table th, .print-table td {
+    border: 1px solid black !important;
+    padding: 8px !important;
+    color: black !important;
+    background: transparent !important;
+  }
+
+  .print-table th {
+    font-weight: bold;
+    text-align: center;
+    background-color: #f0f0f0 !important; /* Abu-abu tipis untuk header cetak */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* 5. Area Tanda Tangan */
+  .signature-area {
+    width: 100%;
+    margin-top: 50px;
+    display: flex;
+    justify-content: flex-end;
+    page-break-inside: avoid; /* Pastikan tanda tangan tidak terpisah ke halaman baru */
+  }
+
+  .signature-box {
+    text-align: center;
+    width: 250px;
+  }
+
+  .signature-space {
+    height: 80px; /* Ruang untuk tanda tangan pena */
+  }
+
+  .signature-name {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+}
+
+/* Screen responsive tweaks for printable layout preview */
+@media (max-width: 768px) {
+  body { font-size: 11pt; }
+  .kop-surat-text h1 { font-size: 14pt; }
+  .print-table th, .print-table td { padding: 6px !important; }
+}
+
+/* Subtle animation for signature reveal on screen */
+.signature-box { transition: transform 220ms var(--transition-ease), opacity 180ms ease; }
+.signature-box:hover { transform: translateY(-4px); }

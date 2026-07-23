@@ -1,0 +1,84 @@
+/**
+ * ============================================
+ * Modal Styles (Pop-up Dialog)
+ * ============================================
+ */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5); /* Backdrop gelap transparan */
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-container {
+  background: #ffffff;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Header Modal dengan garis bawah tegas */
+.modal-header {
+  padding: 16px 24px;
+  border-bottom: 2px solid var(--accent-primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent-primary);
+  font-family: 'Georgia', serif;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.modal-close-btn:hover {
+  color: #ef4444;
+}
+
+.modal-body {
+  padding: 24px;
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Modal micro-animations and responsive sizing */
+.modal-container { transition: transform 220ms cubic-bezier(.2,.9,.2,1), opacity 180ms ease; }
+.modal-open .modal-container { transform: translateY(0) scale(1); opacity: 1; }
+.modal-close { transform: translateY(6px) scale(.99); opacity: 0; }
+.modal-container.anim-scale { animation: scaleIn 260ms cubic-bezier(.2,.9,.2,1) both; }
+
+@media (max-width: 480px) {
+  .modal-container { max-width: 92%; padding: 18px; }
+  .modal-body { padding: 16px; font-size: 14px; }
+}

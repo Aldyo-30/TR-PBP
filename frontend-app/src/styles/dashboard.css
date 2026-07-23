@@ -15,7 +15,7 @@
 
 /* ---- Welcome Banner ---- */
 .dashboard-welcome {
-  background: var(--accent-gradient);
+  background: var(--accent-primary); 
   border-radius: var(--radius);
   padding: 32px;
   display: flex;
@@ -24,7 +24,7 @@
   margin-bottom: 28px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25);
+  box-shadow: 0 4px 20px rgba(30, 58, 138, 0.25); 
 }
 
 .dashboard-welcome::before {
@@ -55,7 +55,8 @@
 }
 
 .dashboard-welcome-title {
-  font-size: 24px;
+  font-size: 26px;
+  font-family: 'Georgia', serif; 
   font-weight: 700;
   color: white;
   margin-bottom: 8px;
@@ -74,9 +75,8 @@
 }
 
 .dashboard-welcome-emoji {
-  font-size: 56px;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
-  animation: float1 4s ease-in-out infinite;
+  font-size: 64px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 
@@ -347,4 +347,40 @@
   .dashboard-welcome {
     padding: 20px;
   }
+}
+
+/* -------------------------------------------- */
+/* Responsive helpers & Micro-animations (Global) */
+/* -------------------------------------------- */
+
+/* Micro-animation utility classes */
+.anim-fade { animation: fadeIn 0.35s ease both; }
+.anim-scale { animation: scaleIn 0.28s cubic-bezier(.2,.9,.2,1) both; }
+.hover-rise { transition: transform 180ms var(--transition-ease), box-shadow 180ms var(--transition-ease); }
+.hover-rise:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.hover-glow { transition: box-shadow 220ms var(--transition-ease), color 180ms var(--transition-ease); }
+.hover-glow:hover { box-shadow: 0 6px 18px rgba(59,130,246,0.12); }
+.focus-ring:focus { outline: none; box-shadow: 0 0 0 4px rgba(59,130,246,0.08); border-color: var(--accent-primary); }
+
+/* Small tweaks for mobile/tablet */
+@media (max-width: 1024px) {
+  .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
+  .dashboard-actions { grid-template-columns: repeat(2, 1fr); }
+  .stat-card { padding: 18px; }
+}
+
+@media (max-width: 768px) {
+  .dashboard-welcome-title { font-size: 20px; }
+  .dashboard-welcome-text { font-size: 13px; max-width: 100%; }
+  .dashboard-stats { grid-template-columns: 1fr; }
+  .dashboard-actions { grid-template-columns: 1fr; }
+  .stat-card { padding: 16px; }
+  .dashboard-welcome { padding: 20px; }
+  .dashboard-welcome-emoji { font-size: 40px; }
+}
+
+/* Keyframes used by utilities */
+@keyframes scaleIn {
+  0% { transform: scale(.98); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }

@@ -14,16 +14,17 @@
   --bg-secondary: #f1f5f9;
   --bg-card: #ffffff;
 
-  /* Sidebar */
+  /* Sidebar (Bisa dibiarkan tetap gelap atau disesuaikan) */
   --sidebar-bg: #1e293b;
   --sidebar-hover: #334155;
-  --sidebar-active: #3b82f6;
+  --sidebar-active: #1e3a8a; 
   --sidebar-width: 270px;
 
-  /* Accent Colors */
-  --accent-primary: #3b82f6;
-  --accent-secondary: #8b5cf6;
-  --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  /* Accent Colors (Ubah ke warna kampus, contoh: Navy) */
+  --accent-primary: #1e3a8a; 
+  --accent-secondary: #fbbf24;
+  --accent-gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  
 
   /* Text */
   --text-primary: #1e293b;
@@ -532,9 +533,19 @@ input, select, textarea {
   color: var(--accent-primary);
 }
 
-.badge-guru {
+.badge-guru, .badge-dosen {
   background: var(--success-light);
   color: var(--success);
+}
+
+.badge-siswa, .badge-mahasiswa {
+  background: rgba(139, 92, 246, 0.15);
+  color: #7c3aed;
+}
+
+.badge-staf {
+  background: var(--warning-light);
+  color: #d97706;
 }
 
 
@@ -1128,6 +1139,33 @@ input, select, textarea {
   }
 }
 
+/* Micro-animation helpers */
+.anim-fade { animation: fadeIn 0.32s ease both; }
+.anim-scale { animation: scaleIn 0.28s cubic-bezier(.18,.84,.31,1) both; }
+.hover-rise { transition: transform 180ms var(--transition-fast), box-shadow 180ms var(--transition-fast); }
+.hover-rise:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.hover-glow { transition: box-shadow 220ms var(--transition-fast), color 180ms var(--transition-fast); }
+.hover-glow:hover { box-shadow: 0 10px 20px rgba(59,130,246,0.12); }
+.focus-ring:focus { outline: none; box-shadow: 0 0 0 4px rgba(59,130,246,0.08); border-color: var(--accent-primary); }
+
+/* Responsive layout helpers */
+@media (max-width: 1024px) {
+  .layout-main { margin-left: calc(var(--sidebar-width) - 60px); }
+  .layout-content { padding: 22px; }
+}
+
+@media (max-width: 768px) {
+  .layout-main { margin-left: 0; }
+  .layout-content { padding: 18px 16px 24px; margin-top: calc(var(--header-height) + 10px); }
+  .page-header { flex-direction: column; align-items: stretch; gap: 14px; }
+  .page-title { font-size: 22px; }
+  .btn { width: 100%; justify-content: center; }
+  .header-icon-btn { width: 36px; height: 36px; }
+}
+
+@media (max-width: 480px) {
+  .page-title { font-size: 20px; }
+}
 
 /* ---- Scrollbar ---- */
 ::-webkit-scrollbar {

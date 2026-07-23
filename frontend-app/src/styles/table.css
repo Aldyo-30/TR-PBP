@@ -1,0 +1,75 @@
+/**
+ * ============================================
+ * DataTable Styles (Tabel Akademik)
+ * ============================================
+ */
+
+.table-wrapper {
+  overflow-x: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* Header Tabel dengan warna Institusi */
+.table thead th {
+  background: var(--accent-primary);
+  color: white;
+  padding: 14px 20px;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 12px;
+  border-bottom: 2px solid #1e293b;
+}
+
+.table tbody td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+/* Striped Rows (Baris Belang-belang) untuk kemudahan membaca data panjang */
+.table tbody tr:nth-child(even) {
+  background: var(--bg-secondary);
+}
+
+.table tbody tr:hover {
+  background: #e2e8f0; /* Efek hover yang lebih jelas */
+  transition: var(--transition-fast);
+}
+
+/* Status Lulus/Tidak Lulus */
+.text-success { color: #15803d; font-weight: 600; }
+.text-danger { color: #b91c1c; font-weight: 600; }
+
+/* Pagination minimalis */
+.table-pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 20px;
+  background: white;
+  border-top: 1px solid var(--border);
+}
+
+/* Micro-animations for rows and responsive table stacking */
+.table tbody tr { transition: background 180ms var(--transition-ease), transform 160ms var(--transition-ease); }
+.table tbody tr:hover { transform: translateY(-2px); }
+
+@media (max-width: 768px) {
+  .table { font-size: 13px; }
+  .table thead th { display: none; }
+  .table tbody td { display: block; width: 100%; box-sizing: border-box; padding: 10px 14px; }
+  .table tbody tr { margin-bottom: 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .table tbody td::before { content: attr(data-label); display: block; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; font-size: 12px; }
+  .table-wrapper { background: transparent; box-shadow: none; border: none; }
+}
