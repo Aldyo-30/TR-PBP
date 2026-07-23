@@ -1,14 +1,4 @@
-/**
- * ============================================
- * Dashboard Page
- * ============================================
- * Main dashboard with welcome banner, stat cards,
- * and quick action buttons.
- * - Fetches summary data from /dashboard API
- * - Loading skeleton while data loads
- * - Responsive card grid
- * ============================================
- */
+
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
@@ -36,14 +26,10 @@ const Dashboard = () => {
   });
   const [loading, setLoading] = useState(true);
 
-  /**
-   * Fetch dashboard data on mount
-   */
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
         const response = await api.get('/dashboard');
-        // Backend Laravel mereturn { success: true, data: { ... } }
         setStats(response.data.data || response.data);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
@@ -55,9 +41,6 @@ const Dashboard = () => {
     fetchDashboard();
   }, []);
 
-  /**
-   * Stat cards configuration
-   */
   const statCards = [
     {
       label: 'Total Siswa',
@@ -82,8 +65,8 @@ const Dashboard = () => {
     },
     {
       label: 'Tahun Ajaran Aktif',
-      value: stats.tahun_ajaran_aktif 
-        ? `${stats.tahun_ajaran_aktif.tahun} - ${stats.tahun_ajaran_aktif.semester}` 
+      value: stats.tahun_ajaran_aktif
+        ? `${stats.tahun_ajaran_aktif.tahun} - ${stats.tahun_ajaran_aktif.semester}`
         : <span style={{ fontSize: '18px', color: '#ef4444' }}>Belum ada yang aktif</span>,
       icon: <FiCalendar size={28} />,
       gradient: 'stat-card-orange',
@@ -91,16 +74,12 @@ const Dashboard = () => {
     },
   ];
 
-  /**
-   * Quick action links
-   */
   const quickActions = [
     { label: 'Input Nilai', icon: <FiEdit size={20} />, path: '/nilai' },
     { label: 'Lihat Raport', icon: <FiFileText size={20} />, path: '/raport' },
     { label: 'Rekap Nilai', icon: <FiBarChart2 size={20} />, path: '/rekap' },
   ];
 
-  // Get greeting based on time of day
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Selamat Pagi';
@@ -111,7 +90,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      {/* ---- Welcome Banner ---- */}
+
       <div className="dashboard-welcome">
         <div className="dashboard-welcome-content">
           <h1 className="dashboard-welcome-title">
@@ -128,7 +107,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* ---- Stat Cards Grid ---- */}
       <div className="dashboard-stats">
         {statCards.map((card, index) => (
           <div
@@ -152,13 +130,12 @@ const Dashboard = () => {
             <div className="stat-card-icon" style={{ color: card.color }}>
               {card.icon}
             </div>
-            {/* Decorative background circle */}
+
             <div className="stat-card-bg-circle" />
           </div>
         ))}
       </div>
 
-      {/* ---- Quick Actions ---- */}
       <div className="dashboard-section">
         <h2 className="dashboard-section-title">Aksi Cepat</h2>
         <div className="dashboard-actions">
@@ -176,7 +153,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* ---- Admin Quick Info ---- */}
       {isAdmin && (
         <div className="dashboard-section">
           <h2 className="dashboard-section-title">Informasi Sistem</h2>

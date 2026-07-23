@@ -1,15 +1,4 @@
-/**
- * ============================================
- * User List Page (Manajemen User)
- * ============================================
- * Full CRUD for user management with:
- * - Data table with search and pagination
- * - Add/Edit modal form
- * - Delete confirmation dialog
- * - Role badges (Admin/Guru)
- * - Toast notifications for all actions
- * ============================================
- */
+
 
 import { useState, useEffect, useCallback } from 'react';
 import api from '../../api/axios';
@@ -31,18 +20,15 @@ import {
 } from 'react-icons/fi';
 
 const UserList = () => {
-  // ---- State ----
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Modal state
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState('create'); // 'create' | 'edit'
+  const [modalMode, setModalMode] = useState('create');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -52,22 +38,17 @@ const UserList = () => {
   const [formLoading, setFormLoading] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
 
-  // Delete confirmation
   const [deleteDialog, setDeleteDialog] = useState({
     isOpen: false,
     userId: null,
     userName: '',
   });
 
-  /**
-   * Fetch all users from API
-   */
   const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
       const response = await api.get('/users');
       const result = response.data.data;
-      // Handle paginated response (result.data) or plain array
       setUsers(Array.isArray(result) ? result : (result.data || []));
     } catch (error) {
       console.error('Failed to fetch users:', error);
@@ -81,9 +62,6 @@ const UserList = () => {
     fetchUsers();
   }, [fetchUsers]);
 
-  /**
-   * Filter users by search query (name or email)
-   */
   const filteredUsers = users.filter((user) => {
     const query = searchQuery.toLowerCase();
     return (
@@ -92,21 +70,14 @@ const UserList = () => {
     );
   });
 
-  /**
-   * Pagination logic
-   */
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage);
 
-  // Reset to page 1 when search changes
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
 
-  /**
-   * Open modal for creating a new user
-   */
   const openCreateModal = () => {
     setModalMode('create');
     setEditingUser(null);
@@ -114,41 +85,29 @@ const UserList = () => {
     setModalOpen(true);
   };
 
-  /**
-   * Open modal for editing an existing user
-   */
   const openEditModal = (user) => {
     setModalMode('edit');
     setEditingUser(user);
     setFormData({
       name: user.name,
       email: user.email,
-      password: '', // Optional for edit
+      password: '',
       role: user.role,
     });
     setModalOpen(true);
   };
 
-  /**
-   * Close modal and reset form
-   */
   const closeModal = () => {
     setModalOpen(false);
     setEditingUser(null);
     setFormData({ name: '', email: '', password: '', role: 'guru' });
   };
 
-  /**
-   * Handle form input changes
-   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  /**
-   * Handle form submit (create or update)
-   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormLoading(true);
@@ -158,7 +117,6 @@ const UserList = () => {
         await api.post('/users', formData);
         toast.success('User berhasil ditambahkan! 🎉');
       } else {
-        // For edit: only include password if it was filled
         const updateData = { ...formData };
         if (!updateData.password) delete updateData.password;
         await api.put(`/users/${editingUser.id}`, updateData);
@@ -174,9 +132,6 @@ const UserList = () => {
     }
   };
 
-  /**
-   * Open delete confirmation dialog
-   */
   const openDeleteDialog = (user) => {
     setDeleteDialog({
       isOpen: true,
@@ -185,9 +140,6 @@ const UserList = () => {
     });
   };
 
-  /**
-   * Confirm delete user
-   */
   const handleDelete = async () => {
     try {
       await api.delete(`/users/${deleteDialog.userId}`);
@@ -201,14 +153,13 @@ const UserList = () => {
     }
   };
 
-  // ---- Loading State ----
   if (loading) {
     return <LoadingSpinner message="Memuat data user..." />;
   }
 
   return (
     <div className="page-container">
-      {/* ---- Page Header ---- */}
+
       <div className="page-header">
         <div className="page-header-left">
           <h1 className="page-title">Manajemen User</h1>
@@ -222,7 +173,6 @@ const UserList = () => {
         </button>
       </div>
 
-      {/* ---- Search Bar ---- */}
       <div className="search-bar">
         <div className="search-input-group">
           <FiSearch size={18} className="search-icon" />
@@ -244,7 +194,6 @@ const UserList = () => {
         </div>
       </div>
 
-      {/* ---- Data Table ---- */}
       <div className="card">
         {filteredUsers.length === 0 ? (
           <div className="empty-state">
@@ -317,7 +266,6 @@ const UserList = () => {
               </table>
             </div>
 
-            {/* Pagination */}
             {totalPages > 1 && (
               <div className="pagination">
                 <button
@@ -357,7 +305,6 @@ const UserList = () => {
         )}
       </div>
 
-      {/* ---- Add/Edit Modal ---- */}
       {modalOpen && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -371,7 +318,7 @@ const UserList = () => {
             </div>
 
             <form className="modal-form" onSubmit={handleSubmit}>
-              {/* Name */}
+
               <div className="form-group">
                 <label className="form-label" htmlFor="name">
                   <FiUser size={16} />
@@ -389,7 +336,6 @@ const UserList = () => {
                 />
               </div>
 
-              {/* Email */}
               <div className="form-group">
                 <label className="form-label" htmlFor="modal-email">
                   <FiMail size={16} />
@@ -407,7 +353,6 @@ const UserList = () => {
                 />
               </div>
 
-              {/* Password */}
               <div className="form-group">
                 <label className="form-label" htmlFor="modal-password">
                   <FiLock size={16} />
@@ -435,7 +380,6 @@ const UserList = () => {
                 />
               </div>
 
-              {/* Role */}
               <div className="form-group">
                 <label className="form-label" htmlFor="role">
                   <FiUsers size={16} />
@@ -454,7 +398,6 @@ const UserList = () => {
                 </select>
               </div>
 
-              {/* Actions */}
               <div className="modal-actions">
                 <button
                   type="button"
@@ -483,7 +426,6 @@ const UserList = () => {
         </div>
       )}
 
-      {/* ---- Delete Confirmation ---- */}
       <ConfirmDialog
         isOpen={deleteDialog.isOpen}
         title="Hapus User"

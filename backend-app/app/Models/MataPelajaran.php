@@ -18,9 +18,6 @@ class MataPelajaran extends Model
         'kkm'
     ];
 
-    /**
-     * Relasi ke Guru (pivot melalui guru_mapel).
-     */
     public function guru(): BelongsToMany
     {
         return $this->belongsToMany(Guru::class, 'guru_mapel', 'mata_pelajaran_id', 'guru_id')

@@ -1,13 +1,4 @@
-/**
- * ============================================
- * SiswaForm Component
- * ============================================
- * Form component for creating or editing Siswa.
- * Handles inputs for NIS, NISN, Nama, Jenis Kelamin,
- * Tempat & Tanggal Lahir, Alamat, Nama Wali,
- * and Class assignment.
- * ============================================
- */
+
 
 import { useState, useEffect } from 'react';
 import api from '../../api/axios';
@@ -47,7 +38,7 @@ const SiswaForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
   return (
     <form onSubmit={onSubmit} className="modal-form">
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        {/* NIS */}
+
         <div className="form-group">
           <label htmlFor="nis" className="form-label">
             NIS <span className="text-danger">*</span>
@@ -64,7 +55,6 @@ const SiswaForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
           />
         </div>
 
-        {/* NISN */}
         <div className="form-group">
           <label htmlFor="nisn" className="form-label">
             NISN <span className="text-danger">*</span>
@@ -82,7 +72,6 @@ const SiswaForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         </div>
       </div>
 
-      {/* Nama Lengkap */}
       <div className="form-group">
         <label htmlFor="nama" className="form-label">
           Nama Lengkap <span className="text-danger">*</span>
@@ -100,7 +89,7 @@ const SiswaForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        {/* Jenis Kelamin */}
+
         <div className="form-group">
           <label className="form-label">
             Jenis Kelamin <span className="text-danger">*</span>
@@ -131,7 +120,6 @@ const SiswaForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
           </div>
         </div>
 
-        {/* Kelas */}
         <div className="form-group">
           <label htmlFor="kelas_id" className="form-label">
             Kelas
@@ -154,7 +142,7 @@ const SiswaForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        {/* Tempat Lahir */}
+
         <div className="form-group">
           <label htmlFor="tempat_reveal" className="form-label">
             Tempat Lahir <span className="text-danger">*</span>
@@ -171,7 +159,6 @@ const SiswaForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
           />
         </div>
 
-        {/* Tanggal Lahir */}
         <div className="form-group">
           <label htmlFor="tanggal_lahir" className="form-label">
             Tanggal Lahir <span className="text-danger">*</span>
@@ -188,7 +175,6 @@ const SiswaForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         </div>
       </div>
 
-      {/* Nama Ortu / Wali */}
       <div className="form-group">
         <label htmlFor="nama_ortu_wali" className="form-label">
           Nama Orang Tua / Wali <span className="text-danger">*</span>
@@ -205,7 +191,6 @@ const SiswaForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         />
       </div>
 
-      {/* Alamat */}
       <div className="form-group">
         <label htmlFor="alamat" className="form-label">
           Alamat Rumah
@@ -222,7 +207,6 @@ const SiswaForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         />
       </div>
 
-      {/* Actions */}
       <div className="modal-actions" style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
         <button className="btn btn-secondary" type="button" onClick={onCancel} disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 24px', fontSize: '14px' }}>
           <FiX /> Batal

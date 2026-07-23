@@ -1,15 +1,4 @@
-/**
- * ============================================
- * Guru List Page (Manajemen Data Guru)
- * ============================================
- * Full CRUD for teacher management with:
- * - Reusable DataTable with built-in search
- * - Add/Edit modal using GuruForm
- * - Delete confirmation dialog
- * - Connected account statuses
- * - Badges for subjects taught
- * ============================================
- */
+
 
 import { useState, useEffect, useCallback } from 'react';
 import api from '../../api/axios';
@@ -25,9 +14,8 @@ const GuruList = () => {
   const [guru, setGuru] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Modal State
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState('create'); // 'create' | 'edit'
+  const [modalMode, setModalMode] = useState('create');
   const [formData, setFormData] = useState({
     nip: '',
     nama: '',
@@ -40,7 +28,6 @@ const GuruList = () => {
   const [formLoading, setFormLoading] = useState(false);
   const [editingGuru, setEditingGuru] = useState(null);
 
-  // Delete State
   const [deleteDialog, setDeleteDialog] = useState({
     isOpen: false,
     guruId: null,
@@ -104,7 +91,6 @@ const GuruList = () => {
     e.preventDefault();
     setFormLoading(true);
 
-    // Transform empty user_id string to null
     const submitData = {
       ...formData,
       user_id: formData.user_id === '' ? null : parseInt(formData.user_id, 10),
@@ -149,7 +135,6 @@ const GuruList = () => {
     }
   };
 
-  // DataTable column configuration
   const columns = [
     {
       header: 'NIP',
@@ -236,7 +221,6 @@ const GuruList = () => {
     },
   ];
 
-  // Render edit/delete action buttons
   const renderActions = (item) => (
     <div style={{ display: 'flex', gap: '8px' }}>
       <button
@@ -262,7 +246,7 @@ const GuruList = () => {
 
   return (
     <div className="page-container">
-      {/* Page Header */}
+
       <div className="page-header">
         <div className="page-header-left">
           <h1 className="page-title">Data Guru</h1>
@@ -276,7 +260,6 @@ const GuruList = () => {
         </button>
       </div>
 
-      {/* Main Data Table Card */}
       <div className="card" style={{ padding: '1.5rem' }}>
         <DataTable
           columns={columns}
@@ -287,7 +270,6 @@ const GuruList = () => {
         />
       </div>
 
-      {/* Add/Edit Modal */}
       <Modal
         isOpen={modalOpen}
         onClose={closeModal}
@@ -303,7 +285,6 @@ const GuruList = () => {
         />
       </Modal>
 
-      {/* Delete Confirmation */}
       <ConfirmDialog
         isOpen={deleteDialog.isOpen}
         title="Hapus Data Guru"

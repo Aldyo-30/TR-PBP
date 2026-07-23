@@ -9,17 +9,9 @@ use App\Models\Siswa;
 use App\Models\TahunAjaran;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Controller untuk menampilkan data ringkasan di dashboard.
- */
 class DashboardController extends Controller
 {
-    /**
-     * Tampilkan ringkasan data untuk dashboard.
-     * Mengembalikan total siswa, guru, kelas, dan tahun ajaran aktif.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function index(): JsonResponse
     {
         $data = [

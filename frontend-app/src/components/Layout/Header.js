@@ -1,11 +1,4 @@
-/**
- * ============================================
- * Header Component
- * ============================================
- * Top bar with page title, user info, and
- * mobile hamburger toggle for sidebar.
- * ============================================
- */
+
 
 import { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -25,9 +18,6 @@ const Header = ({ onToggleSidebar }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  /**
-   * Map route paths to page titles
-   */
   const getPageTitle = () => {
     const titles = {
       '/dashboard': 'Dashboard',
@@ -45,7 +35,6 @@ const Header = ({ onToggleSidebar }) => {
     return titles[location.pathname] || 'Halaman';
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -64,12 +53,11 @@ const Header = ({ onToggleSidebar }) => {
   return (
     <header className="header">
       <div className="header-left">
-        {/* Mobile hamburger */}
+
         <button className="header-hamburger" onClick={onToggleSidebar}>
           <FiMenu size={22} />
         </button>
 
-        {/* Page title */}
         <div className="header-title-section">
           <h2 className="header-title">{getPageTitle()}</h2>
           <p className="header-subtitle">
@@ -79,13 +67,12 @@ const Header = ({ onToggleSidebar }) => {
       </div>
 
       <div className="header-right">
-        {/* Notification bell (decorative for now) */}
+
         <button className="header-icon-btn">
           <FiBell size={20} />
           <span className="header-notification-dot" />
         </button>
 
-        {/* User dropdown */}
         <div className="header-user-dropdown" ref={dropdownRef}>
           <button
             className="header-user-btn"
@@ -101,7 +88,6 @@ const Header = ({ onToggleSidebar }) => {
             />
           </button>
 
-          {/* Dropdown menu */}
           {dropdownOpen && (
             <div className="header-dropdown-menu">
               <div className="header-dropdown-header">

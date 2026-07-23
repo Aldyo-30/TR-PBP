@@ -1,8 +1,4 @@
-/**
- * ============================================
- * Modal Styles (Pop-up Dialog)
- * ============================================
- */
+
 
 .modal-overlay {
   position: fixed;
@@ -26,8 +22,6 @@
   overflow: hidden;
   animation: slideUp 0.3s ease-out;
 }
-
-/* Header Modal dengan garis bawah tegas */
 .modal-header {
   padding: 16px 24px;
   border-bottom: 2px solid var(--accent-primary);
@@ -71,8 +65,6 @@
   justify-content: flex-end;
   gap: 12px;
 }
-
-/* Modal micro-animations and responsive sizing */
 .modal-container { transition: transform 220ms cubic-bezier(.2,.9,.2,1), opacity 180ms ease; }
 .modal-open .modal-container { transform: translateY(0) scale(1); opacity: 1; }
 .modal-close { transform: translateY(6px) scale(.99); opacity: 0; }

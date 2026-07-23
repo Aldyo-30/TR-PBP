@@ -8,21 +8,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Controller untuk manajemen data siswa (CRUD).
- * Hanya bisa diakses oleh admin.
- */
 class SiswaController extends Controller
 {
-    /**
-     * Tampilkan daftar semua siswa.
-     * Mendukung pencarian berdasarkan nama/NIS dan filter kelas.
-     */
+
     public function index(Request $request): JsonResponse
     {
         $query = Siswa::query()->with('kelas.tahunAjaran');
 
-        // Filter pencarian berdasarkan nama atau NIS
         if ($search = $request->query('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
@@ -31,7 +23,6 @@ class SiswaController extends Controller
             });
         }
 
-        // Filter berdasarkan kelas_id
         if ($kelasId = $request->query('kelas_id')) {
             $query->where('kelas_id', $kelasId);
         }
@@ -45,9 +36,6 @@ class SiswaController extends Controller
         ], 200);
     }
 
-    /**
-     * Simpan data siswa baru.
-     */
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -71,9 +59,6 @@ class SiswaController extends Controller
         ], 201);
     }
 
-    /**
-     * Tampilkan detail satu siswa.
-     */
     public function show(Siswa $siswa): JsonResponse
     {
         return response()->json([
@@ -83,9 +68,6 @@ class SiswaController extends Controller
         ], 200);
     }
 
-    /**
-     * Update data siswa.
-     */
     public function update(Request $request, Siswa $siswa): JsonResponse
     {
         $validated = $request->validate([
@@ -115,9 +97,6 @@ class SiswaController extends Controller
         ], 200);
     }
 
-    /**
-     * Hapus data siswa.
-     */
     public function destroy(Siswa $siswa): JsonResponse
     {
         $siswa->delete();

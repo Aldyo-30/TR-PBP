@@ -1,28 +1,14 @@
-/**
- * ============================================
- * App.js — Root Application Component
- * ============================================
- * Sets up routing, auth context, and layout.
- * - BrowserRouter for client-side routing
- * - AuthProvider wraps everything for global auth
- * - ToastContainer for notifications
- * - Public routes: Login
- * - Protected routes: wrapped in MainLayout
- * ============================================
- */
+
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Layout
 import MainLayout from './components/Layout/MainLayout';
 
-// Common
 import ProtectedRoute from './components/common/ProtectedRoute';
 
-// Pages — ALDYO
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import RaportView from './pages/raport/RaportView';
@@ -30,12 +16,10 @@ import RekapNilai from './pages/raport/RekapNilai';
 import UserList from './pages/users/UserList';
 import Profile from './pages/Profile';
 
-// Pages — KEVIN
 import GuruList from './pages/guru/GuruList';
 import SiswaList from './pages/siswa/SiswaList';
 import KelasList from './pages/kelas/KelasList';
 
-// Pages — JOSAN
 import MapelList from './pages/mapel/MapelList';
 import TahunAjaranList from './pages/tahun-ajaran/TahunAjaranList';
 import InputNilai from './pages/nilai/InputNilai';
@@ -44,7 +28,7 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        {/* Toast notifications container */}
+
         <ToastContainer
           position="top-right"
           autoClose={3000}
@@ -59,13 +43,10 @@ function App() {
         />
 
         <Routes>
-          {/* ---- Public Routes ---- */}
+
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
 
-          {/* ---- Protected Routes (wrapped in MainLayout) ---- */}
-
-          {/* Dashboard — all authenticated users */}
           <Route
             path="/dashboard"
             element={
@@ -77,7 +58,6 @@ function App() {
             }
           />
 
-          {/* Data Guru — KEVIN's page */}
           <Route
             path="/guru"
             element={
@@ -89,7 +69,6 @@ function App() {
             }
           />
 
-          {/* Data Siswa — KEVIN's page */}
           <Route
             path="/siswa"
             element={
@@ -101,7 +80,6 @@ function App() {
             }
           />
 
-          {/* Data Kelas — KEVIN's page */}
           <Route
             path="/kelas"
             element={
@@ -113,7 +91,6 @@ function App() {
             }
           />
 
-          {/* Mata Pelajaran — JOSAN's page */}
           <Route
             path="/mapel"
             element={
@@ -125,7 +102,6 @@ function App() {
             }
           />
 
-          {/* Tahun Ajaran — JOSAN's page */}
           <Route
             path="/tahun-ajaran"
             element={
@@ -137,7 +113,6 @@ function App() {
             }
           />
 
-          {/* Input Nilai — JOSAN's page */}
           <Route
             path="/nilai"
             element={
@@ -149,7 +124,6 @@ function App() {
             }
           />
 
-          {/* Raport — full view */}
           <Route
             path="/raport"
             element={
@@ -171,7 +145,6 @@ function App() {
             }
           />
 
-          {/* Rekap Nilai — class recap & ranking */}
           <Route
             path="/rekap/:kelasId?"
             element={
@@ -183,7 +156,6 @@ function App() {
             }
           />
 
-          {/* User Management — Admin only */}
           <Route
             path="/users"
             element={
@@ -195,7 +167,6 @@ function App() {
             }
           />
 
-          {/* Profile — all authenticated users */}
           <Route
             path="/profile"
             element={

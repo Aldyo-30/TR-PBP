@@ -12,22 +12,20 @@ const RekapNilai = () => {
 
   const [tahunAjaranList, setTahunAjaranList] = useState([]);
   const [kelasList, setKelasList] = useState([]);
-  
-  const [filter, setFilter] = useState({ 
-    tahun_ajaran_id: urlTahunAjaranId || '', 
-    kelas_id: urlKelasId || '' 
+
+  const [filter, setFilter] = useState({
+    tahun_ajaran_id: urlTahunAjaranId || '',
+    kelas_id: urlKelasId || ''
   });
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
 
-  // Fetch data dropdown filter
   useEffect(() => {
     api.get('/tahun-ajaran').then((res) => {
       const data = Array.isArray(res.data) ? res.data : (res.data.data || []);
       setTahunAjaranList(data);
-      // Set default tahun ajaran jika belum ada
       if (!filter.tahun_ajaran_id && data.length > 0) {
         setFilter(prev => ({ ...prev, tahun_ajaran_id: data[0].id }));
       }
@@ -38,7 +36,6 @@ const RekapNilai = () => {
     });
   }, []);
 
-  // Fetch Rekap Data ketika filter lengkap
   useEffect(() => {
     const fetchRekap = async () => {
       if (!filter.kelas_id || !filter.tahun_ajaran_id) {
@@ -49,9 +46,8 @@ const RekapNilai = () => {
       try {
         setLoading(true);
         setError(null);
-        // Memperbarui URL tanpa me-reload agar link bisa dishare
         navigate(`/rekap/${filter.kelas_id}?tahun_ajaran_id=${filter.tahun_ajaran_id}`, { replace: true });
-        
+
         const res = await api.get(`/rekap/${filter.kelas_id}?tahun_ajaran_id=${filter.tahun_ajaran_id}`);
         setData(res.data?.rekap || []);
       } catch (err) {
@@ -72,7 +68,6 @@ const RekapNilai = () => {
         <p style={{ margin: '4px 0 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Peringkat siswa berdasarkan nilai rata-rata tertinggi di kelas</p>
       </div>
 
-      {/* FILTER SECTION */}
       <div className="card" style={{ padding: '20px', marginBottom: '24px', background: '#f8fafc', boxShadow: 'none' }}>
         <h3 style={{ margin: '0 0 16px 0', fontSize: '15px', color: '#334155', fontWeight: '600' }}>Filter Leaderboard</h3>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
@@ -128,24 +123,24 @@ const RekapNilai = () => {
                     let rowClass = '';
                     let medal = '';
                     let rowStyle = { transition: 'all 0.3s' };
-                    
-                    if (rank === 1) { 
+
+                    if (rank === 1) {
                       medal = '🏆';
                       rowStyle = { ...rowStyle, background: 'linear-gradient(to right, #fef3c7, #fde68a)', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' };
                     }
-                    else if (rank === 2) { 
-                      medal = '🥈'; 
+                    else if (rank === 2) {
+                      medal = '🥈';
                       rowStyle = { ...rowStyle, background: 'linear-gradient(to right, #f1f5f9, #e2e8f0)', boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.06)' };
                     }
-                    else if (rank === 3) { 
-                      medal = '🥉'; 
+                    else if (rank === 3) {
+                      medal = '🥉';
                       rowStyle = { ...rowStyle, background: 'linear-gradient(to right, #ffedd5, #fed7aa)', boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.06)' };
                     }
 
                     return (
                       <tr key={idx} className={rowClass} style={rowStyle}>
                         <td style={{ fontSize: rank <= 3 ? '18px' : '15px', fontWeight: rank <= 3 ? 'bold' : '600', padding: '16px' }}>
-                          {medal && <span style={{ fontSize: '24px', marginRight: '8px', verticalAlign: 'middle' }}>{medal}</span>} 
+                          {medal && <span style={{ fontSize: '24px', marginRight: '8px', verticalAlign: 'middle' }}>{medal}</span>}
                           {rank > 3 && <span style={{ color: '#64748b' }}>#{rank}</span>}
                         </td>
                         <td style={{ padding: '16px' }}>{row.nis ?? '-'}</td>

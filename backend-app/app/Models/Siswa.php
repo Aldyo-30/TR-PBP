@@ -28,9 +28,6 @@ class Siswa extends Model
         'tanggal_lahir' => 'date'
     ];
 
-    /**
-     * Relasi ke Kelas.
-     */
     public function kelas(): BelongsTo
     {
         return $this->belongsTo(Kelas::class, 'kelas_id');

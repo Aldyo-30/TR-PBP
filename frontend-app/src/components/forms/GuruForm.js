@@ -1,13 +1,4 @@
-/**
- * ============================================
- * GuruForm Component
- * ============================================
- * Form component for creating or editing Guru.
- * Handles inputs for NIP, Nama, Jenis Kelamin,
- * Alamat, No Telepon, User Account linking,
- * and Mata Pelajaran assignments.
- * ============================================
- */
+
 
 import { useState, useEffect } from 'react';
 import api from '../../api/axios';
@@ -23,7 +14,6 @@ const GuruForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
     const loadFormDependencies = async () => {
       setFetchingData(true);
       try {
-        // Fetch users with role 'guru'
         const usersResponse = await api.get('/users?role=guru');
         const usersData = usersResponse.data.data;
         setUsers(Array.isArray(usersData) ? usersData : (usersData.data || []));
@@ -32,13 +22,11 @@ const GuruForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
       }
 
       try {
-        // Fetch subjects (mata-pelajaran)
         const subjectsResponse = await api.get('/mata-pelajaran');
         const subjectsData = subjectsResponse.data.data;
         setSubjects(Array.isArray(subjectsData) ? subjectsData : (subjectsData.data || []));
       } catch (error) {
         console.error('Failed to load subjects for guru mapping:', error);
-        // Fallback mock subjects in case Josan's part is not seeded/migrated yet
         setSubjects([
           { id: 1, kode: 'MAPEL-AGM', nama: 'Pendidikan Agama', kkm: 75 },
           { id: 2, kode: 'MAPEL-PKN', 'nama': 'Pendidikan Pancasila dan Kewarganegaraan (PKn)', kkm: 70 },
@@ -77,7 +65,7 @@ const GuruForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
 
   return (
     <form onSubmit={onSubmit} className="modal-form">
-      {/* NIP */}
+
       <div className="form-group">
         <label htmlFor="nip" className="form-label">
           NIP <span className="text-danger">*</span>
@@ -94,7 +82,6 @@ const GuruForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         />
       </div>
 
-      {/* Nama */}
       <div className="form-group">
         <label htmlFor="nama" className="form-label">
           Nama Lengkap <span className="text-danger">*</span>
@@ -111,7 +98,6 @@ const GuruForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         />
       </div>
 
-      {/* Jenis Kelamin */}
       <div className="form-group">
         <label className="form-label">
           Jenis Kelamin <span className="text-danger">*</span>
@@ -142,7 +128,6 @@ const GuruForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         </div>
       </div>
 
-      {/* No Telepon */}
       <div className="form-group">
         <label htmlFor="no_telepon" className="form-label">
           No. Telepon
@@ -158,7 +143,6 @@ const GuruForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         />
       </div>
 
-      {/* Alamat */}
       <div className="form-group">
         <label htmlFor="alamat" className="form-label">
           Alamat
@@ -175,7 +159,6 @@ const GuruForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         />
       </div>
 
-      {/* User Account Link */}
       <div className="form-group">
         <label htmlFor="user_id" className="form-label">
           Hubungkan Akun User <span className="form-label-hint">(Opsional)</span>
@@ -199,7 +182,6 @@ const GuruForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         </p>
       </div>
 
-      {/* Mata Pelajaran (Checkboxes) */}
       <div className="form-group">
         <label className="form-label">
           Mata Pelajaran yang Diampu
@@ -232,7 +214,6 @@ const GuruForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         </div>
       </div>
 
-      {/* Actions */}
       <div className="modal-actions" style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
         <button className="btn btn-secondary" type="button" onClick={onCancel} disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 24px', fontSize: '14px' }}>
           <FiX /> Batal

@@ -23,25 +23,16 @@ class Guru extends Model
         'no_telepon'
     ];
 
-    /**
-     * Relasi ke User.
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Relasi ke Kelas (sebagai Wali Kelas).
-     */
     public function kelas(): HasOne
     {
         return $this->hasOne(Kelas::class, 'guru_id');
     }
 
-    /**
-     * Relasi ke Mata Pelajaran (pivot melalui guru_mapel).
-     */
     public function mataPelajaran(): BelongsToMany
     {
         return $this->belongsToMany(MataPelajaran::class, 'guru_mapel', 'guru_id', 'mata_pelajaran_id')

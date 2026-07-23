@@ -10,10 +10,10 @@ export default function MapelForm({ onSubmit, selectedData, onCancel }) {
   }, [selectedData]);
 
   return (
-    <form 
+    <form
       style={{
         background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px dashed #cbd5e1', marginBottom: '24px'
-      }} 
+      }}
       onSubmit={(e) => {
         e.preventDefault();
         onSubmit(formData);
@@ -23,7 +23,7 @@ export default function MapelForm({ onSubmit, selectedData, onCancel }) {
       <h3 style={{ marginTop: 0, marginBottom: '16px', color: '#1e293b' }}>
         {selectedData ? 'Edit Mata Pelajaran' : 'Tambah Mata Pelajaran'}
       </h3>
-      
+
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
         <div className="form-group">
           <label>Kode Mapel</label>
@@ -35,7 +35,7 @@ export default function MapelForm({ onSubmit, selectedData, onCancel }) {
             required
           />
         </div>
-        
+
         <div className="form-group">
           <label>Nama Mapel</label>
           <input
@@ -46,7 +46,7 @@ export default function MapelForm({ onSubmit, selectedData, onCancel }) {
             required
           />
         </div>
-        
+
         <div className="form-group">
           <label>KKM</label>
           <input
@@ -59,7 +59,7 @@ export default function MapelForm({ onSubmit, selectedData, onCancel }) {
           />
         </div>
       </div>
-      
+
       <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
         <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 24px', fontSize: '14px' }}>
           <FiSave /> {selectedData ? 'Update Mata Pelajaran' : 'Simpan Mata Pelajaran'}

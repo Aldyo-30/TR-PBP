@@ -1,13 +1,4 @@
-/**
- * ============================================
- * Profile Page (Edit Profil)
- * ============================================
- * 3 sections sesuai referensi tugas2_auth:
- * 1. Update Profile Information (nama & email)
- * 2. Update Password
- * 3. Delete Account
- * ============================================
- */
+
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +23,6 @@ const Profile = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  // ---- Section 1: Profile Info ----
   const [profileData, setProfileData] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -40,7 +30,6 @@ const Profile = () => {
   const [profileLoading, setProfileLoading] = useState(false);
   const [profileErrors, setProfileErrors] = useState({});
 
-  // ---- Section 2: Update Password ----
   const [passwordData, setPasswordData] = useState({
     current_password: '',
     password: '',
@@ -52,15 +41,11 @@ const Profile = () => {
   const [showNewPass, setShowNewPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
-  // ---- Section 3: Delete Account ----
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [deletePassword, setDeletePassword] = useState('');
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState('');
 
-  // =================================================================
-  // Section 1: Update Profile Information
-  // =================================================================
   const handleProfileChange = (e) => {
     const { name, value } = e.target;
     setProfileData((prev) => ({ ...prev, [name]: value }));
@@ -76,9 +61,7 @@ const Profile = () => {
       const response = await api.put('/profile', profileData);
       const updatedUser = response.data.data;
 
-      // Update localStorage with new user data
       localStorage.setItem('user', JSON.stringify(updatedUser));
-      // Force page reload to update AuthContext
       window.location.reload();
 
       toast.success('Profil berhasil diperbarui! ✅');
@@ -95,9 +78,6 @@ const Profile = () => {
     }
   };
 
-  // =================================================================
-  // Section 2: Update Password
-  // =================================================================
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
     setPasswordData((prev) => ({ ...prev, [name]: value }));
@@ -130,9 +110,6 @@ const Profile = () => {
     }
   };
 
-  // =================================================================
-  // Section 3: Delete Account
-  // =================================================================
   const handleDeleteAccount = async () => {
     if (!deletePassword) {
       setDeleteError('Password wajib diisi untuk konfirmasi.');
@@ -147,7 +124,6 @@ const Profile = () => {
         data: { password: deletePassword },
       });
       toast.success('Akun berhasil dihapus.');
-      // Clear auth and redirect
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       navigate('/login');
@@ -162,7 +138,6 @@ const Profile = () => {
     }
   };
 
-  // Helper for field error display
   const getError = (errors, field) => {
     const err = errors[field];
     if (!err) return null;
@@ -179,9 +154,7 @@ const Profile = () => {
       </div>
 
       <div className="profile-sections">
-        {/* ============================================================ */}
-        {/* Section 1: Update Profile Information                        */}
-        {/* ============================================================ */}
+
         <div className="profile-card">
           <div className="profile-card-header">
             <div className="profile-card-icon profile-card-icon-blue">
@@ -252,9 +225,6 @@ const Profile = () => {
           </form>
         </div>
 
-        {/* ============================================================ */}
-        {/* Section 2: Update Password                                   */}
-        {/* ============================================================ */}
         <div className="profile-card">
           <div className="profile-card-header">
             <div className="profile-card-icon profile-card-icon-green">
@@ -269,7 +239,7 @@ const Profile = () => {
           </div>
 
           <form className="profile-form" onSubmit={handlePasswordSubmit}>
-            {/* Current Password */}
+
             <div className="profile-form-group">
               <label className="profile-label" htmlFor="current-password">
                 <FiLock size={15} />
@@ -301,7 +271,6 @@ const Profile = () => {
               )}
             </div>
 
-            {/* New Password */}
             <div className="profile-form-group">
               <label className="profile-label" htmlFor="new-password">
                 <FiLock size={15} />
@@ -333,7 +302,6 @@ const Profile = () => {
               )}
             </div>
 
-            {/* Confirm Password */}
             <div className="profile-form-group">
               <label className="profile-label" htmlFor="confirm-password">
                 <FiLock size={15} />
@@ -381,9 +349,6 @@ const Profile = () => {
           </form>
         </div>
 
-        {/* ============================================================ */}
-        {/* Section 3: Delete Account                                    */}
-        {/* ============================================================ */}
         <div className="profile-card profile-card-danger">
           <div className="profile-card-header">
             <div className="profile-card-icon profile-card-icon-red">
@@ -410,7 +375,6 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* ---- Delete Account Confirmation Modal ---- */}
       {deleteDialog && (
         <div className="modal-overlay" onClick={() => { setDeleteDialog(false); setDeleteError(''); setDeletePassword(''); }}>
           <div className="modal profile-delete-modal" onClick={(e) => e.stopPropagation()}>

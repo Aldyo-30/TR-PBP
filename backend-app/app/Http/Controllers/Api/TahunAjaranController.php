@@ -48,7 +48,6 @@ class TahunAjaranController extends Controller
         $newState = !$ta->is_active;
 
         if ($newState) {
-            // Jika mau diaktifkan, matikan yang lain dulu
             TahunAjaran::query()->update(['is_active' => false]);
         }
 

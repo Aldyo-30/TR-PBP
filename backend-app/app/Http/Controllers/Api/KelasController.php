@@ -8,16 +8,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Controller untuk manajemen data kelas (CRUD).
- * Hanya bisa diakses oleh admin.
- */
 class KelasController extends Controller
 {
-    /**
-     * Tampilkan daftar semua kelas.
-     * Mendukung pencarian berdasarkan nama kelas.
-     */
+
     public function index(Request $request): JsonResponse
     {
         $query = Kelas::query()->with(['guru', 'tahunAjaran'])->withCount('siswa');
@@ -26,7 +19,6 @@ class KelasController extends Controller
             $query->where('nama_kelas', 'like', "%{$search}%");
         }
 
-        // Filter berdasarkan tahun ajaran (opsional)
         if ($tahunAjaranId = $request->query('tahun_ajaran_id')) {
             $query->where('tahun_ajaran_id', $tahunAjaranId);
         }
@@ -40,9 +32,6 @@ class KelasController extends Controller
         ], 200);
     }
 
-    /**
-     * Simpan data kelas baru.
-     */
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -63,9 +52,6 @@ class KelasController extends Controller
         ], 201);
     }
 
-    /**
-     * Tampilkan detail satu kelas.
-     */
     public function show(Kelas $kela): JsonResponse
     {
         return response()->json([
@@ -75,9 +61,6 @@ class KelasController extends Controller
         ], 200);
     }
 
-    /**
-     * Update data kelas.
-     */
     public function update(Request $request, Kelas $kela): JsonResponse
     {
         $validated = $request->validate([
@@ -98,9 +81,6 @@ class KelasController extends Controller
         ], 200);
     }
 
-    /**
-     * Hapus data kelas.
-     */
     public function destroy(Kelas $kela): JsonResponse
     {
         $kela->delete();

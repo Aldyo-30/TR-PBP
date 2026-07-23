@@ -19,25 +19,16 @@ class Kelas extends Model
         'tahun_ajaran_id'
     ];
 
-    /**
-     * Relasi ke Guru (sebagai Wali Kelas).
-     */
     public function guru(): BelongsTo
     {
         return $this->belongsTo(Guru::class, 'guru_id');
     }
 
-    /**
-     * Relasi ke Tahun Ajaran.
-     */
     public function tahunAjaran(): BelongsTo
     {
         return $this->belongsTo(TahunAjaran::class, 'tahun_ajaran_id');
     }
 
-    /**
-     * Relasi ke Siswa.
-     */
     public function siswa(): HasMany
     {
         return $this->hasMany(Siswa::class, 'kelas_id');

@@ -1,19 +1,6 @@
-/**
- * ============================================
- * Dashboard Styles
- * ============================================
- * Welcome banner, stat cards grid, quick actions,
- * and info cards with animations.
- * ============================================
- */
-
-/* ---- Dashboard Container ---- */
 .dashboard {
   animation: fadeIn 0.3s ease;
 }
-
-
-/* ---- Welcome Banner ---- */
 .dashboard-welcome {
   background: var(--accent-gradient);
   border-radius: var(--radius);
@@ -78,9 +65,6 @@
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
   animation: float1 4s ease-in-out infinite;
 }
-
-
-/* ---- Stat Cards Grid ---- */
 .dashboard-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -140,8 +124,6 @@
   z-index: 1;
   flex-shrink: 0;
 }
-
-/* Stat card icon backgrounds */
 .stat-card-blue .stat-card-icon {
   background: rgba(59, 130, 246, 0.1);
 }
@@ -157,8 +139,6 @@
 .stat-card-orange .stat-card-icon {
   background: rgba(245, 158, 11, 0.1);
 }
-
-/* Decorative background circle */
 .stat-card-bg-circle {
   position: absolute;
   width: 120px;
@@ -190,14 +170,9 @@
   opacity: 0.08;
   transform: scale(1.2);
 }
-
-/* Loading skeleton state */
 .stat-card-loading {
   pointer-events: none;
 }
-
-
-/* ---- Dashboard Sections ---- */
 .dashboard-section {
   margin-bottom: 28px;
 }
@@ -208,9 +183,6 @@
   color: var(--text-primary);
   margin-bottom: 16px;
 }
-
-
-/* ---- Quick Actions ---- */
 .dashboard-actions {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -266,9 +238,6 @@
   transition: var(--transition);
   flex-shrink: 0;
 }
-
-
-/* ---- Info Card ---- */
 .dashboard-info-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -301,9 +270,6 @@
   display: flex;
   align-items: center;
 }
-
-
-/* ---- Responsive ---- */
 @media (max-width: 1200px) {
   .dashboard-stats {
     grid-template-columns: repeat(2, 1fr);

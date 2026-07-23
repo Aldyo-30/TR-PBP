@@ -1,15 +1,4 @@
-/**
- * ============================================
- * Sidebar Component
- * ============================================
- * Dark navy sidebar with navigation menu.
- * - Gradient accent highlights
- * - Role-based menu item visibility
- * - Active link highlighting via NavLink
- * - Collapsible on mobile
- * - User info + logout at bottom
- * ============================================
- */
+
 
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -33,10 +22,6 @@ import '../../styles/sidebar.css';
 const Sidebar = ({ isOpen, onClose }) => {
   const { user, isAdmin, logout } = useAuth();
 
-  /**
-   * Navigation menu configuration
-   * Each item has: path, label, icon, and role restriction
-   */
   const menuItems = [
     { path: '/dashboard', label: 'Dashboard', icon: <FiHome size={20} />, roles: ['admin', 'guru'] },
     { path: '/guru', label: 'Data Guru', icon: <FiUsers size={20} />, roles: ['admin'] },
@@ -50,7 +35,6 @@ const Sidebar = ({ isOpen, onClose }) => {
     { path: '/users', label: 'User Management', icon: <FiSettings size={20} />, roles: ['admin'] },
   ];
 
-  // Filter menu items based on user role
   const filteredMenu = menuItems.filter(
     (item) => item.roles.includes(user?.role)
   );
@@ -61,11 +45,11 @@ const Sidebar = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* Mobile overlay backdrop */}
+
       {isOpen && <div className="sidebar-overlay" onClick={onClose} />}
 
       <aside className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
-        {/* ---- Logo / Brand ---- */}
+
         <div className="sidebar-brand">
           <div className="sidebar-logo">
             <span className="sidebar-logo-icon">📊</span>
@@ -74,13 +58,12 @@ const Sidebar = ({ isOpen, onClose }) => {
               <span className="sidebar-logo-subtitle">Sistem Informasi</span>
             </div>
           </div>
-          {/* Mobile close button */}
+
           <button className="sidebar-close-btn" onClick={onClose}>
             <FiX size={22} />
           </button>
         </div>
 
-        {/* ---- Navigation Menu ---- */}
         <nav className="sidebar-nav">
           <div className="sidebar-nav-label">Menu Utama</div>
           <ul className="sidebar-menu">
@@ -95,7 +78,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 >
                   <span className="sidebar-link-icon">{item.icon}</span>
                   <span className="sidebar-link-text">{item.label}</span>
-                  {/* Active indicator dot */}
+
                   <span className="sidebar-link-indicator" />
                 </NavLink>
               </li>
@@ -103,7 +86,6 @@ const Sidebar = ({ isOpen, onClose }) => {
           </ul>
         </nav>
 
-        {/* ---- User Info + Logout ---- */}
         <div className="sidebar-footer">
           <div className="sidebar-user-info">
             <div className="sidebar-user-avatar">

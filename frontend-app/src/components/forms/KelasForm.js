@@ -1,12 +1,4 @@
-/**
- * ============================================
- * KelasForm Component
- * ============================================
- * Form component for creating or editing Kelas.
- * Handles inputs for Nama Kelas, Wali Kelas (Guru),
- * and Tahun Ajaran.
- * ============================================
- */
+
 
 import { useState, useEffect } from 'react';
 import api from '../../api/axios';
@@ -22,7 +14,6 @@ const KelasForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
     const loadFormDependencies = async () => {
       setFetchingData(true);
       try {
-        // Fetch teachers
         const teachersResponse = await api.get('/guru');
         const teachersData = teachersResponse.data.data;
         setTeachers(Array.isArray(teachersData) ? teachersData : (teachersData.data || []));
@@ -31,13 +22,11 @@ const KelasForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
       }
 
       try {
-        // Fetch academic years (tahun-ajaran)
         const yearsResponse = await api.get('/tahun-ajaran');
         const yearsData = yearsResponse.data.data;
         setAcademicYears(Array.isArray(yearsData) ? yearsData : (yearsData.data || []));
       } catch (error) {
         console.error('Failed to load academic years:', error);
-        // Fallback mock academic years in case Josan's API is not ready
         setAcademicYears([
           { id: 1, tahun: '2024/2025', semester: 'Ganjil', is_active: true },
           { id: 2, tahun: '2024/2025', semester: 'Genap', is_active: false },
@@ -61,7 +50,7 @@ const KelasForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
 
   return (
     <form onSubmit={onSubmit} className="modal-form">
-      {/* Nama Kelas */}
+
       <div className="form-group">
         <label htmlFor="nama_kelas" className="form-label">
           Nama Kelas <span className="text-danger">*</span>
@@ -78,7 +67,6 @@ const KelasForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         />
       </div>
 
-      {/* Wali Kelas (Guru) */}
       <div className="form-group">
         <label htmlFor="guru_id" className="form-label">
           Wali Kelas <span className="form-label-hint">(Opsional)</span>
@@ -102,7 +90,6 @@ const KelasForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         </p>
       </div>
 
-      {/* Tahun Ajaran */}
       <div className="form-group">
         <label htmlFor="tahun_ajaran_id" className="form-label">
           Tahun Ajaran & Semester <span className="text-danger">*</span>
@@ -124,7 +111,6 @@ const KelasForm = ({ formData, setFormData, onSubmit, onCancel, loading }) => {
         </select>
       </div>
 
-      {/* Actions */}
       <div className="modal-actions" style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
         <button className="btn btn-secondary" type="button" onClick={onCancel} disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 24px', fontSize: '14px' }}>
           <FiX /> Batal

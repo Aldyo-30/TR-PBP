@@ -1,38 +1,19 @@
-/**
- * ============================================
- * Global Styles — Design System
- * ============================================
- * CSS custom properties, reset, typography,
- * utility classes, and shared component styles.
- * ============================================
- */
-
-/* ---- CSS Custom Properties (Design Tokens) ---- */
 :root {
-  /* Backgrounds */
-  --bg-primary: #f8fafc;
+--bg-primary: #f8fafc;
   --bg-secondary: #f1f5f9;
   --bg-card: #ffffff;
-
-  /* Sidebar */
-  --sidebar-bg: #1e293b;
+--sidebar-bg: #1e293b;
   --sidebar-hover: #334155;
   --sidebar-active: #3b82f6;
   --sidebar-width: 270px;
-
-  /* Accent Colors */
-  --accent-primary: #3b82f6;
+--accent-primary: #3b82f6;
   --accent-secondary: #8b5cf6;
   --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-
-  /* Text */
-  --text-primary: #1e293b;
+--text-primary: #1e293b;
   --text-secondary: #64748b;
   --text-light: #94a3b8;
   --text-white: #ffffff;
-
-  /* Semantic Colors */
-  --success: #22c55e;
+--success: #22c55e;
   --success-light: #dcfce7;
   --warning: #f59e0b;
   --warning-light: #fef3c7;
@@ -40,32 +21,21 @@
   --danger-light: #fee2e2;
   --info: #3b82f6;
   --info-light: #dbeafe;
-
-  /* Borders & Shadows */
-  --border: #e2e8f0;
+--border: #e2e8f0;
   --border-light: #f1f5f9;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 6px 12px -2px rgba(0, 0, 0, 0.1), 0 3px 7px -3px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 40px -5px rgba(0, 0, 0, 0.15);
-
-  /* Radius */
-  --radius: 12px;
+--radius: 12px;
   --radius-sm: 8px;
   --radius-xs: 6px;
   --radius-full: 9999px;
-
-  /* Transitions */
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+--transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* Header */
-  --header-height: 72px;
+--header-height: 72px;
 }
-
-
-/* ---- Reset & Base ---- */
 *,
 *::before,
 *::after {
@@ -116,9 +86,6 @@ input, select, textarea {
   font-size: inherit;
   outline: none;
 }
-
-
-/* ---- Layout ---- */
 .layout {
   display: flex;
   min-height: 100vh;
@@ -138,9 +105,6 @@ input, select, textarea {
   padding: 28px;
   margin-top: var(--header-height);
 }
-
-
-/* ---- Header ---- */
 .header {
   position: fixed;
   top: 0;
@@ -277,8 +241,6 @@ input, select, textarea {
 .header-chevron-open {
   transform: rotate(180deg);
 }
-
-/* Header Dropdown Menu */
 .header-dropdown-menu {
   position: absolute;
   top: calc(100% + 8px);
@@ -337,9 +299,6 @@ input, select, textarea {
   background: var(--danger-light);
   color: var(--danger);
 }
-
-
-/* ---- Page Container ---- */
 .page-container {
   animation: fadeIn 0.3s ease;
 }
@@ -368,9 +327,6 @@ input, select, textarea {
   color: var(--text-secondary);
   margin-top: 4px;
 }
-
-
-/* ---- Card ---- */
 .card {
   background: var(--bg-card);
   border-radius: var(--radius);
@@ -383,8 +339,6 @@ input, select, textarea {
 .card:hover {
   box-shadow: var(--shadow);
 }
-
-/* Placeholder cards for coming-soon pages */
 .placeholder-card {
   display: flex;
   flex-direction: column;
@@ -404,9 +358,6 @@ input, select, textarea {
   font-size: 16px;
   font-weight: 500;
 }
-
-
-/* ---- Buttons ---- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -514,9 +465,6 @@ input, select, textarea {
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }
-
-
-/* ---- Badges ---- */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -536,9 +484,6 @@ input, select, textarea {
   background: var(--success-light);
   color: var(--success);
 }
-
-
-/* ---- Table ---- */
 .table-wrapper {
   overflow-x: auto;
 }
@@ -618,9 +563,6 @@ input, select, textarea {
   display: flex;
   gap: 8px;
 }
-
-
-/* ---- Search Bar ---- */
 .search-bar {
   margin-bottom: 20px;
 }
@@ -678,9 +620,6 @@ input, select, textarea {
   background: var(--bg-secondary);
   color: var(--text-primary);
 }
-
-
-/* ---- Pagination ---- */
 .pagination {
   display: flex;
   align-items: center;
@@ -745,9 +684,6 @@ input, select, textarea {
   background: var(--accent-primary);
   color: white;
 }
-
-
-/* ---- Modal ---- */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -814,9 +750,6 @@ input, select, textarea {
   padding-top: 20px;
   border-top: 1px solid var(--border-light);
 }
-
-
-/* ---- Form ---- */
 .form-group {
   margin-bottom: 18px;
 }
@@ -864,9 +797,6 @@ input, select, textarea {
   background-position: right 12px center;
   padding-right: 40px;
 }
-
-
-/* ---- Empty State ---- */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -889,9 +819,6 @@ input, select, textarea {
   margin-top: 8px;
   max-width: 360px;
 }
-
-
-/* ---- Confirm Dialog ---- */
 .confirm-overlay {
   position: fixed;
   inset: 0;
@@ -964,9 +891,6 @@ input, select, textarea {
 .confirm-actions .btn {
   min-width: 120px;
 }
-
-
-/* ---- Loading Spinner ---- */
 .loading-spinner-overlay {
   display: flex;
   align-items: center;
@@ -1020,9 +944,6 @@ input, select, textarea {
   color: var(--text-secondary);
   font-weight: 500;
 }
-
-
-/* ---- Status Dot ---- */
 .status-dot {
   display: inline-block;
   width: 8px;
@@ -1036,9 +957,6 @@ input, select, textarea {
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
   animation: pulse 2s ease-in-out infinite;
 }
-
-
-/* ---- Skeleton Loading ---- */
 .skeleton {
   background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--border-light) 50%, var(--bg-secondary) 75%);
   background-size: 200% 100%;
@@ -1056,9 +974,6 @@ input, select, textarea {
   width: 100px;
   height: 16px;
 }
-
-
-/* ---- Keyframe Animations ---- */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -1127,9 +1042,6 @@ input, select, textarea {
     transform: scale(1);
   }
 }
-
-
-/* ---- Scrollbar ---- */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -1147,9 +1059,6 @@ input, select, textarea {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-secondary);
 }
-
-
-/* ---- Responsive ---- */
 @media (max-width: 768px) {
   .layout-main {
     margin-left: 0;

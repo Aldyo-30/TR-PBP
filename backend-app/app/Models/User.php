@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -16,14 +15,9 @@ use Laravel\Sanctum\HasApiTokens;
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
+
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -32,25 +26,16 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * Cek apakah user adalah admin.
-     */
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
 
-    /**
-     * Cek apakah user adalah guru.
-     */
     public function isGuru(): bool
     {
         return $this->role === 'guru';
     }
 
-    /**
-     * Relasi: User memiliki satu data Guru.
-     */
     public function guru(): HasOne
     {
         return $this->hasOne(Guru::class);

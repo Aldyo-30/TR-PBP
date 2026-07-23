@@ -14,18 +14,11 @@ use App\Http\Controllers\Controller;
 
 class NilaiController extends Controller
 {
-    /**
-     * Bobot penilaian: Tugas 30%, UTS 30%, UAS 40%
-     */
+
     private const BOBOT_TUGAS = 0.30;
     private const BOBOT_UTS   = 0.30;
     private const BOBOT_UAS   = 0.40;
 
-    /**
-     * GET /api/nilai
-     * List nilai per kelas, per semester (tahun_ajaran). 
-     * Mendukung filter opsional per siswa atau per mapel.
-     */
     public function index(Request $request)
     {
         $request->validate([
@@ -37,7 +30,6 @@ class NilaiController extends Controller
 
         $user = Auth::user();
 
-        // Otorisasi jika ada filter mapel spesifik
         if ($user->isGuru() && $request->has('mata_pelajaran_id')) {
             $this->authorizeGuruForKelasMapel($user, $request->kelas_id, $request->mata_pelajaran_id);
         }
@@ -63,10 +55,6 @@ class NilaiController extends Controller
         ]);
     }
 
-    /**
-     * POST /api/nilai
-     * Bulk Input nilai baru (Grid/Spreadsheet system per siswa).
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -85,7 +73,6 @@ class NilaiController extends Controller
         $insertedCount = 0;
 
         foreach ($validated['data_nilai'] as $item) {
-            // Cek otorisasi per mapel
             if ($user->isGuru()) {
                 $this->authorizeGuruForKelasMapel($user, $validated['kelas_id'], $item['mata_pelajaran_id']);
             }
@@ -121,10 +108,6 @@ class NilaiController extends Controller
         ], 201);
     }
 
-    /**
-     * PUT /api/nilai/{id}
-     * Edit nilai. Recalculate nilai_akhir & predikat setiap kali diupdate.
-     */
     public function update(Request $request, $id)
     {
         $nilai = Nilai::findOrFail($id);
@@ -160,10 +143,6 @@ class NilaiController extends Controller
         ]);
     }
 
-    /**
-     * GET /api/raport/{siswa_id}?tahun_ajaran_id=
-     * Ambil semua nilai untuk 1 siswa pada 1 semester (tampilan raport).
-     */
     public function raport(Request $request, $siswa_id)
     {
         $request->validate([
@@ -194,11 +173,6 @@ class NilaiController extends Controller
         ]);
     }
 
-    /**
-     * GET /api/rekap/{kelas_id}?tahun_ajaran_id=
-     * GET /api/rekap?kelas_id={kelas_id}&tahun_ajaran_id=
-     * Rekap nilai seluruh siswa di 1 kelas (rata-rata semua mapel) + ranking.
-     */
     public function rekap(Request $request, $kelas_id = null)
     {
         $request->validate([
@@ -230,7 +204,6 @@ class NilaiController extends Controller
             ];
         });
 
-        // Ranking: urutkan descending berdasarkan rata_rata, siswa tanpa nilai di paling bawah
         $rekapTeruruk = $rekap->sortByDesc('rata_rata')->values();
 
         $rekapDenganRanking = $rekapTeruruk->map(function ($item, $index) {
@@ -244,16 +217,6 @@ class NilaiController extends Controller
         ]);
     }
 
-    /**
-     * Hitung nilai_akhir (bobot Tugas 30% + UTS 30% + UAS 40%) dan predikat.
-     * Predikat dihitung relatif terhadap KKM mata pelajaran:
-     *   A:  nilai_akhir >= KKM + 20
-     *   AB: nilai_akhir >= KKM + 15
-     *   B:  nilai_akhir >= KKM + 10
-     *   BC: nilai_akhir >= KKM + 5
-     *   C:  nilai_akhir >= KKM
-     *   D:  nilai_akhir <  KKM
-     */
     private function hitungNilaiAkhirDanPredikat(
         float $tugas,
         float $uts,
@@ -279,10 +242,6 @@ class NilaiController extends Controller
         return [$nilaiAkhir, $predikat];
     }
 
-    /**
-     * Pastikan guru hanya bisa akses nilai untuk mapel yang ia ampu
-     * di kelas tersebut (via tabel pivot guru_mapel) atau ia adalah wali kelasnya.
-     */
     private function authorizeGuruForKelasMapel($user, int $kelasId, int $mataPelajaranId): void
     {
         $guru = $user->guru;

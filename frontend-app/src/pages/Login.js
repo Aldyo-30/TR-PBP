@@ -1,12 +1,4 @@
-/**
- * ============================================
- * Login & Register Page
- * ============================================
- * Full-screen auth page with glassmorphism card,
- * gradient background, animated entrance, and
- * smooth toggle between Login & Register modes.
- * ============================================
- */
+
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -27,17 +19,14 @@ const Login = () => {
   const navigate = useNavigate();
   const { login, register, user, token, loading: authLoading } = useAuth();
 
-  // If already authenticated, redirect to dashboard
   useEffect(() => {
     if (!authLoading && user && token) {
       navigate('/dashboard', { replace: true });
     }
   }, [user, token, authLoading, navigate]);
 
-  // Toggle between login and register mode
   const [isRegister, setIsRegister] = useState(false);
 
-  // Form state
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -50,20 +39,13 @@ const Login = () => {
   const [error, setError] = useState('');
   const [errors, setErrors] = useState({});
 
-  /**
-   * Handle input changes with spread operator pattern
-   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear errors when user starts typing
     if (error) setError('');
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
   };
 
-  /**
-   * Toggle between Login and Register
-   */
   const toggleMode = () => {
     setIsRegister((prev) => !prev);
     setError('');
@@ -71,9 +53,6 @@ const Login = () => {
     setFormData({ name: '', email: '', password: '', password_confirmation: '' });
   };
 
-  /**
-   * Handle form submission
-   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -82,7 +61,6 @@ const Login = () => {
 
     try {
       if (isRegister) {
-        // Register mode
         await register(
           formData.name,
           formData.email,
@@ -91,13 +69,11 @@ const Login = () => {
         );
         toast.success('Registrasi berhasil! Selamat datang 👋');
       } else {
-        // Login mode
         await login(formData.email, formData.password);
         toast.success('Login berhasil! Selamat datang 👋');
       }
       navigate('/dashboard');
     } catch (err) {
-      // Handle validation errors (422)
       if (err.response?.status === 422 && err.response?.data?.errors) {
         setErrors(err.response.data.errors);
         const firstError = Object.values(err.response.data.errors)[0];
@@ -120,16 +96,15 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      {/* Animated background elements */}
+
       <div className="login-bg-shapes">
         <div className="login-shape login-shape-1" />
         <div className="login-shape login-shape-2" />
         <div className="login-shape login-shape-3" />
       </div>
 
-      {/* Login / Register Card */}
       <div className={`login-card ${isRegister ? 'login-card-register' : ''}`}>
-        {/* Header / Branding */}
+
         <div className="login-header">
           <div className="login-icon-wrapper">
             <span className="login-icon">{isRegister ? '📝' : '📊'}</span>
@@ -142,7 +117,6 @@ const Login = () => {
           </p>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="login-error">
             <span className="login-error-icon">⚠️</span>
@@ -150,9 +124,8 @@ const Login = () => {
           </div>
         )}
 
-        {/* Auth Form */}
         <form className="login-form" onSubmit={handleSubmit}>
-          {/* Name Field (Register only) */}
+
           {isRegister && (
             <div className="login-field login-field-animate">
               <label className="login-label" htmlFor="name">Nama Lengkap</label>
@@ -179,7 +152,6 @@ const Login = () => {
             </div>
           )}
 
-          {/* Email Field */}
           <div className="login-field">
             <label className="login-label" htmlFor="email">Email</label>
             <div className="login-input-group">
@@ -204,7 +176,6 @@ const Login = () => {
             )}
           </div>
 
-          {/* Password Field */}
           <div className="login-field">
             <label className="login-label" htmlFor="password">Password</label>
             <div className="login-input-group">
@@ -236,7 +207,6 @@ const Login = () => {
             )}
           </div>
 
-          {/* Confirm Password Field (Register only) */}
           {isRegister && (
             <div className="login-field login-field-animate">
               <label className="login-label" htmlFor="password_confirmation">Konfirmasi Password</label>
@@ -267,7 +237,6 @@ const Login = () => {
             </div>
           )}
 
-          {/* Submit Button */}
           <button
             type="submit"
             className={`login-btn ${loading ? 'login-btn-loading' : ''}`}
@@ -292,7 +261,6 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Toggle Login / Register */}
         <div className="login-toggle">
           <p>
             {isRegister ? 'Sudah punya akun?' : 'Belum punya akun?'}
@@ -306,7 +274,6 @@ const Login = () => {
           </p>
         </div>
 
-        {/* Footer */}
         <div className="login-footer">
           <p>© 2025 Sistem Raport SD — Kelompok PBP</p>
         </div>

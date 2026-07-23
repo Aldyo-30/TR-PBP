@@ -8,16 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
-/**
- * Controller untuk manajemen profil user.
- * Mengikuti pola dari tugas2_auth ProfileController.
- * Fitur: update info profil, update password, hapus akun.
- */
 class ProfileController extends Controller
 {
-    /**
-     * Ambil data profil user yang sedang login.
-     */
+
     public function show(Request $request): JsonResponse
     {
         return response()->json([
@@ -27,10 +20,6 @@ class ProfileController extends Controller
         ], 200);
     }
 
-    /**
-     * Update informasi profil (nama & email).
-     * Mengikuti pola ProfileUpdateRequest dari tugas2_auth.
-     */
     public function update(Request $request): JsonResponse
     {
         $request->validate([
@@ -47,7 +36,6 @@ class ProfileController extends Controller
         $user = $request->user();
         $user->fill($request->only(['name', 'email']));
 
-        // Reset email verification jika email berubah (seperti tugas2_auth)
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
@@ -61,10 +49,6 @@ class ProfileController extends Controller
         ], 200);
     }
 
-    /**
-     * Update password user.
-     * Memerlukan current_password untuk verifikasi.
-     */
     public function updatePassword(Request $request): JsonResponse
     {
         $request->validate([
@@ -83,10 +67,6 @@ class ProfileController extends Controller
         ], 200);
     }
 
-    /**
-     * Hapus akun user (dengan konfirmasi password).
-     * Mengikuti pola delete dari tugas2_auth.
-     */
     public function destroy(Request $request): JsonResponse
     {
         $request->validate([
@@ -95,10 +75,8 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        // Hapus semua token terlebih dahulu
         $user->tokens()->delete();
 
-        // Hapus akun
         $user->delete();
 
         return response()->json([

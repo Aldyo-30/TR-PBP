@@ -1,15 +1,4 @@
-/**
- * ============================================
- * Kelas List Page (Manajemen Data Kelas)
- * ============================================
- * Full CRUD for class management with:
- * - Reusable DataTable with built-in search
- * - Add/Edit modal using KelasForm
- * - Delete confirmation dialog
- * - Link status for Wali Kelas
- * - Display for Student Counts & Academic Year
- * ============================================
- */
+
 
 import { useState, useEffect, useCallback } from 'react';
 import api from '../../api/axios';
@@ -27,9 +16,8 @@ const KelasList = () => {
   const [selectedYearFilter, setSelectedYearFilter] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Modal State
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState('create'); // 'create' | 'edit'
+  const [modalMode, setModalMode] = useState('create');
   const [formData, setFormData] = useState({
     nama_kelas: '',
     guru_id: '',
@@ -38,7 +26,6 @@ const KelasList = () => {
   const [formLoading, setFormLoading] = useState(false);
   const [editingKelas, setEditingKelas] = useState(null);
 
-  // Delete State
   const [deleteDialog, setDeleteDialog] = useState({
     isOpen: false,
     kelasId: null,
@@ -70,7 +57,6 @@ const KelasList = () => {
       setAcademicYears(Array.isArray(result) ? result : (result.data || []));
     } catch (error) {
       console.error('Failed to fetch academic years for filter:', error);
-      // Fallback academic years
       setAcademicYears([
         { id: 1, tahun: '2024/2025', semester: 'Ganjil', is_active: true },
         { id: 2, tahun: '2024/2025', semester: 'Genap', is_active: false },
@@ -89,7 +75,6 @@ const KelasList = () => {
   const openCreateModal = () => {
     setModalMode('create');
     setEditingKelas(null);
-    // Find active year for initial selection
     const activeYear = academicYears.find(y => y.is_active);
     setFormData({
       nama_kelas: '',
@@ -164,7 +149,6 @@ const KelasList = () => {
     }
   };
 
-  // DataTable column configuration
   const columns = [
     {
       header: 'Nama Kelas',
@@ -251,7 +235,7 @@ const KelasList = () => {
 
   return (
     <div className="page-container">
-      {/* Page Header */}
+
       <div className="page-header">
         <div className="page-header-left">
           <h1 className="page-title">Data Kelas</h1>
@@ -265,9 +249,8 @@ const KelasList = () => {
         </button>
       </div>
 
-      {/* Filter and Table Card */}
       <div className="card" style={{ padding: '1.5rem' }}>
-        {/* Custom Filters */}
+
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem', gap: '0.5rem', alignItems: 'center' }}>
           <label style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-primary)' }}>
             Filter Tahun Ajaran:
@@ -296,7 +279,6 @@ const KelasList = () => {
         />
       </div>
 
-      {/* Add/Edit Modal */}
       <Modal
         isOpen={modalOpen}
         onClose={closeModal}
@@ -312,7 +294,6 @@ const KelasList = () => {
         />
       </Modal>
 
-      {/* Delete Confirmation */}
       <ConfirmDialog
         isOpen={deleteDialog.isOpen}
         title="Hapus Data Kelas"

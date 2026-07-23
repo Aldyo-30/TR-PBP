@@ -60,7 +60,6 @@ const RaportView = () => {
   const subjects = getSubjects();
   const avg = raport?.rata_rata ?? computeAverage(subjects);
 
-  // Jika diakses dari menu Sidebar tanpa parameter siswa (dan bukan akun siswa yang melihat raportnya sendiri)
   if (!studentId && user?.role !== 'siswa') {
     return (
       <div style={{ textAlign: 'center', padding: '60px 20px', background: '#f8fafc', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -142,7 +141,7 @@ const RaportView = () => {
                     <td style={{ textAlign: 'center' }}>{s.nilai_uas ?? s.uas ?? '-'} </td>
                     <td style={{ textAlign: 'center', fontSize: '16px', fontWeight: 'bold' }}>{s.nilai_akhir ?? s.akhir ?? '-'}</td>
                     <td style={{ textAlign: 'center' }}>
-                      <span style={{ 
+                      <span style={{
                           background: s.predikat === 'A' ? '#dcfce7' : (s.predikat === 'B' ? '#dbeafe' : (s.predikat === 'C' ? '#fef9c3' : '#fee2e2')),
                           color: s.predikat === 'A' ? '#166534' : (s.predikat === 'B' ? '#1e40af' : (s.predikat === 'C' ? '#854d0e' : '#991b1b')),
                           padding: '4px 10px', borderRadius: '4px', fontSize: '13px', fontWeight: '700'
@@ -163,7 +162,7 @@ const RaportView = () => {
             </tfoot>
           </table>
         </div>
-        
+
         <div style={{ marginTop: '60px', display: 'flex', justifyContent: 'flex-end', paddingRight: '40px' }}>
           <div style={{ textAlign: 'center' }}>
             <p style={{ marginBottom: '60px' }}>Kepala Sekolah,</p>

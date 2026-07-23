@@ -42,9 +42,9 @@ export default function TahunAjaranList() {
         <h2 style={{ margin: 0, fontSize: '20px', color: 'var(--text-primary)' }}>Tahun Ajaran</h2>
         <p style={{ margin: '4px 0 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Kelola tahun ajaran dan semester aktif</p>
       </div>
-      
+
       <TahunAjaranForm onSubmit={handleSubmit} selectedData={editing} onCancel={() => setEditing(null)} />
-      
+
       <div className="table-wrapper" style={{ marginTop: '20px' }}>
         <table className="table">
           <thead>
@@ -73,24 +73,24 @@ export default function TahunAjaranList() {
                 </td>
                 <td>
                   <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                    <button 
-                      className={`btn ${item.is_active ? 'btn-danger' : 'btn-primary'}`} 
+                    <button
+                      className={`btn ${item.is_active ? 'btn-danger' : 'btn-primary'}`}
                       onClick={() => handleToggle(item.id)}
                       title={item.is_active ? "Matikan Semester Ini" : "Aktifkan Semester Ini"}
                       style={{ padding: '6px 12px', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px', minWidth: '100px', justifyContent: 'center' }}
                     >
                       {item.is_active ? <><FiXCircle /> Matikan</> : <><FiCheckCircle /> Aktifkan</>}
                     </button>
-                    <button 
-                      className="btn btn-secondary" 
+                    <button
+                      className="btn btn-secondary"
                       onClick={() => setEditing(item)}
                       title="Edit"
                       style={{ padding: '6px 10px', display: 'flex', alignItems: 'center' }}
                     >
                       <FiEdit />
                     </button>
-                    <button 
-                      className="btn btn-danger" 
+                    <button
+                      className="btn btn-danger"
                       onClick={() => handleDelete(item.id)}
                       title="Hapus"
                       style={{ padding: '6px 10px', display: 'flex', alignItems: 'center' }}

@@ -23,25 +23,16 @@ class TahunAjaran extends Model
         'is_active' => 'boolean'
     ];
 
-    /**
-     * Scope untuk mengambil tahun ajaran yang aktif.
-     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
 
-    /**
-     * Relasi ke Kelas.
-     */
     public function kelas(): HasMany
     {
         return $this->hasMany(Kelas::class);
     }
 
-    /**
-     * Relasi ke Nilai.
-     */
     public function nilai(): HasMany
     {
         return $this->hasMany(Nilai::class, 'tahun_ajaran_id');

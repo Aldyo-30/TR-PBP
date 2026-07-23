@@ -1,21 +1,9 @@
-/**
- * ============================================
- * Profile Page Styles
- * ============================================
- * 3-section layout: profile info, password, delete
- * Card-based design with colored icons
- * ============================================
- */
-
-/* ---- Profile Sections Container ---- */
 .profile-sections {
   display: flex;
   flex-direction: column;
   gap: 24px;
   max-width: 720px;
 }
-
-/* ---- Profile Card ---- */
 .profile-card {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
@@ -36,8 +24,6 @@
 .profile-card-danger:hover {
   border-color: rgba(239, 68, 68, 0.3);
 }
-
-/* ---- Card Header ---- */
 .profile-card-header {
   display: flex;
   align-items: flex-start;
@@ -82,8 +68,6 @@
   color: var(--text-secondary);
   line-height: 1.5;
 }
-
-/* ---- Profile Form ---- */
 .profile-form {
   display: flex;
   flex-direction: column;
@@ -139,8 +123,6 @@
   color: #ef4444;
   margin-top: 6px;
 }
-
-/* ---- Password Toggle ---- */
 .profile-input-wrapper {
   position: relative;
   display: flex;
@@ -171,21 +153,15 @@
   color: var(--text-primary);
   background: var(--bg-secondary);
 }
-
-/* ---- Form Actions ---- */
 .profile-form-actions {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-top: 4px;
 }
-
-/* ---- Delete Section ---- */
 .profile-delete-section {
   margin-top: 4px;
 }
-
-/* ---- Delete Modal ---- */
 .profile-delete-modal {
   max-width: 480px;
 }
@@ -204,8 +180,6 @@
 .profile-delete-warning strong {
   color: #ef4444;
 }
-
-/* ---- Danger Button ---- */
 .btn-danger {
   display: inline-flex;
   align-items: center;
@@ -230,8 +204,6 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
-
-/* ---- Responsive ---- */
 @media (max-width: 640px) {
   .profile-sections {
     max-width: 100%;

@@ -1,15 +1,4 @@
-/**
- * ============================================
- * Siswa List Page (Manajemen Data Siswa)
- * ============================================
- * Full CRUD for student management with:
- * - Reusable DataTable with search by name, NIS, NISN
- * - Dropdown filter by Class (Kelas)
- * - Add/Edit modal using SiswaForm
- * - Delete confirmation dialog
- * - Formatting for Birth Details (TTL) and Wali info
- * ============================================
- */
+
 
 import { useState, useEffect, useCallback } from 'react';
 import api from '../../api/axios';
@@ -27,9 +16,8 @@ const SiswaList = () => {
   const [selectedClassFilter, setSelectedClassFilter] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Modal State
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState('create'); // 'create' | 'edit'
+  const [modalMode, setModalMode] = useState('create');
   const [formData, setFormData] = useState({
     nis: '',
     nisn: '',
@@ -45,7 +33,6 @@ const SiswaList = () => {
   const [formLoading, setFormLoading] = useState(false);
   const [editingSiswa, setEditingSiswa] = useState(null);
 
-  // Delete State
   const [deleteDialog, setDeleteDialog] = useState({
     isOpen: false,
     siswaId: null,
@@ -101,13 +88,12 @@ const SiswaList = () => {
       tanggal_reveal: '',
       alamat: '',
       nama_ortu_wali: '',
-      kelas_id: selectedClassFilter || '', // pre-select filter class if chosen
+      kelas_id: selectedClassFilter || '',
     });
     setModalOpen(true);
   };
 
   const openEditModal = (item) => {
-    // Format date value (YYYY-MM-DD) from date object or string
     let formattedDate = '';
     if (item.tanggal_lahir) {
       const dateObj = new Date(item.tanggal_lahir);
@@ -148,7 +134,6 @@ const SiswaList = () => {
       ...formData,
       kelas_id: formData.kelas_id === '' ? null : parseInt(formData.kelas_id, 10),
     };
-    // Clean temporary UI bindings
     delete submitData.tanggal_reveal;
 
     try {
@@ -201,7 +186,6 @@ const SiswaList = () => {
     });
   };
 
-  // DataTable column configuration
   const columns = [
     {
       header: 'Identitas',
@@ -301,7 +285,7 @@ const SiswaList = () => {
 
   return (
     <div className="page-container">
-      {/* Page Header */}
+
       <div className="page-header">
         <div className="page-header-left">
           <h1 className="page-title">Data Siswa</h1>
@@ -315,9 +299,8 @@ const SiswaList = () => {
         </button>
       </div>
 
-      {/* Filter and Table Card */}
       <div className="card" style={{ padding: '1.5rem' }}>
-        {/* Custom Filters */}
+
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem', gap: '0.5rem', alignItems: 'center' }}>
           <label style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-primary)' }}>
             Filter Kelas:
@@ -346,7 +329,6 @@ const SiswaList = () => {
         />
       </div>
 
-      {/* Add/Edit Modal */}
       <Modal
         isOpen={modalOpen}
         onClose={closeModal}
@@ -362,7 +344,6 @@ const SiswaList = () => {
         />
       </Modal>
 
-      {/* Delete Confirmation */}
       <ConfirmDialog
         isOpen={deleteDialog.isOpen}
         title="Hapus Data Siswa"

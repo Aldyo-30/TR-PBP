@@ -37,9 +37,9 @@ export default function MapelList() {
         <h2 style={{ margin: 0, fontSize: '20px', color: 'var(--text-primary)' }}>Mata Pelajaran</h2>
         <p style={{ margin: '4px 0 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Kelola data mata pelajaran dan KKM</p>
       </div>
-      
+
       <MapelForm onSubmit={handleSubmit} selectedData={editing} onCancel={() => setEditing(null)} />
-      
+
       <div className="table-wrapper" style={{ marginTop: '20px' }}>
         <table className="table">
           <thead>
@@ -56,10 +56,10 @@ export default function MapelList() {
                 <td><strong>{item.kode}</strong></td>
                 <td>{item.nama}</td>
                 <td>
-                  <span style={{ 
-                    background: '#e0e7ff', color: '#4f46e5', 
-                    padding: '4px 10px', borderRadius: '4px', 
-                    fontSize: '13px', fontWeight: '600' 
+                  <span style={{
+                    background: '#e0e7ff', color: '#4f46e5',
+                    padding: '4px 10px', borderRadius: '4px',
+                    fontSize: '13px', fontWeight: '600'
                   }}>
                     {item.kkm}
                   </span>

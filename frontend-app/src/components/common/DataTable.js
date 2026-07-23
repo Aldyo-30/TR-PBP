@@ -1,14 +1,4 @@
-/**
- * ============================================
- * Reusable DataTable Component
- * ============================================
- * A generic data table component that features:
- * - Pagination controls (items per page, current page)
- * - Built-in client-side searching
- * - Responsive layout and empty states
- * - Custom column rendering
- * ============================================
- */
+
 
 import { useState, useEffect } from 'react';
 import { FiSearch, FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
@@ -17,7 +7,7 @@ const DataTable = ({
   columns,
   data = [],
   searchPlaceholder = 'Cari data...',
-  searchKeys = [], // e.g. ['nama', 'nip']
+  searchKeys = [],
   itemsPerPage = 10,
   actionsHeader = 'Aksi',
   renderActions,
@@ -25,24 +15,20 @@ const DataTable = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Reset to page 1 if query changes
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
 
-  // Filter data based on search keys
   const filteredData = data.filter((item) => {
     if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
-    
+
     return searchKeys.some((key) => {
-      // Handle nested keys like 'kelas.nama_kelas'
       const value = key.split('.').reduce((acc, part) => acc && acc[part], item);
       return value ? String(value).toLowerCase().includes(query) : false;
     });
   });
 
-  // Pagination calculation
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
@@ -61,7 +47,7 @@ const DataTable = ({
 
   return (
     <div className="datatable-container">
-      {/* Search Section */}
+
       {searchKeys.length > 0 && (
         <div className="search-bar" style={{ marginBottom: '1.5rem' }}>
           <div className="search-input-group">
@@ -86,7 +72,6 @@ const DataTable = ({
         </div>
       )}
 
-      {/* Table Section */}
       <div className="table-wrapper">
         <table className="table">
           <thead>
@@ -145,7 +130,6 @@ const DataTable = ({
         </table>
       </div>
 
-      {/* Pagination Footer */}
       {totalPages > 1 && (
         <div className="table-pagination" style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div className="pagination-info" style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>

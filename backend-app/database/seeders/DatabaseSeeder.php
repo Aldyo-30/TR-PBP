@@ -16,13 +16,8 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     * Membuat akun admin, guru, tahun ajaran, mapel, kelas, dan siswa default.
-     */
     public function run(): void
     {
-        // 1. Akun Administrator
         $adminUser = User::factory()->create([
             'name'     => 'Administrator',
             'email'    => 'admin@raportsd.com',
@@ -30,7 +25,6 @@ class DatabaseSeeder extends Seeder
             'role'     => 'admin',
         ]);
 
-        // 2. Akun Guru Demo 1
         $guruUser1 = User::factory()->create([
             'name'     => 'Budi Santoso, S.Pd.',
             'email'    => 'guru@raportsd.com',
@@ -38,7 +32,6 @@ class DatabaseSeeder extends Seeder
             'role'     => 'guru',
         ]);
 
-        // Akun Guru Demo 2
         $guruUser2 = User::factory()->create([
             'name'     => 'Siti Rahma, S.Pd.',
             'email'    => 'siti@raportsd.com',
@@ -46,7 +39,6 @@ class DatabaseSeeder extends Seeder
             'role'     => 'guru',
         ]);
 
-        // 3. Tahun Ajaran
         $ta1 = TahunAjaran::create([
             'tahun'     => '2024/2025',
             'semester'  => 'Ganjil',
@@ -59,7 +51,6 @@ class DatabaseSeeder extends Seeder
             'is_active' => false,
         ]);
 
-        // 4. Mata Pelajaran
         $mapels = [
             ['kode' => 'MAPEL-AGM', 'nama' => 'Pendidikan Agama', 'kkm' => 75],
             ['kode' => 'MAPEL-PKN', 'nama' => 'Pendidikan Pancasila dan Kewarganegaraan (PKn)', 'kkm' => 70],
@@ -77,7 +68,6 @@ class DatabaseSeeder extends Seeder
             $createdMapels[] = MataPelajaran::create($mapel);
         }
 
-        // 5. Data Guru
         $guru1 = Guru::create([
             'user_id'       => $guruUser1->id,
             'nip'           => '198001012005011001',
@@ -96,12 +86,9 @@ class DatabaseSeeder extends Seeder
             'no_telepon'    => '089876543210',
         ]);
 
-        // Sync Guru 1 dengan beberapa Mapel
-        $guru1->mataPelajaran()->sync([$createdMapels[2]->id, $createdMapels[3]->id, $createdMapels[4]->id]); // IND, MTK, IPA
-        // Sync Guru 2 dengan beberapa Mapel
-        $guru2->mataPelajaran()->sync([$createdMapels[0]->id, $createdMapels[1]->id, $createdMapels[5]->id]); // AGM, PKN, SBK
+        $guru1->mataPelajaran()->sync([$createdMapels[2]->id, $createdMapels[3]->id, $createdMapels[4]->id]);
+        $guru2->mataPelajaran()->sync([$createdMapels[0]->id, $createdMapels[1]->id, $createdMapels[5]->id]);
 
-        // 6. Kelas
         $kelas1 = Kelas::create([
             'nama_kelas'      => '6A',
             'guru_id'         => $guru1->id,
@@ -114,7 +101,6 @@ class DatabaseSeeder extends Seeder
             'tahun_ajaran_id' => $ta1->id,
         ]);
 
-        // 7. Siswa
         $siswas = [
             [
                 'nis'            => '10001',

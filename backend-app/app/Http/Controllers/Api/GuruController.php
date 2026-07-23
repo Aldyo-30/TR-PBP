@@ -8,16 +8,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Controller untuk manajemen data guru (CRUD).
- * Hanya bisa diakses oleh admin.
- */
 class GuruController extends Controller
 {
-    /**
-     * Tampilkan daftar semua guru.
-     * Mendukung pencarian berdasarkan nama atau NIP.
-     */
+
     public function index(Request $request): JsonResponse
     {
         $query = Guru::query()->with(['user', 'mataPelajaran']);
@@ -38,9 +31,6 @@ class GuruController extends Controller
         ], 200);
     }
 
-    /**
-     * Simpan data guru baru.
-     */
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -67,9 +57,6 @@ class GuruController extends Controller
         ], 201);
     }
 
-    /**
-     * Tampilkan detail satu guru.
-     */
     public function show(Guru $guru): JsonResponse
     {
         return response()->json([
@@ -79,9 +66,6 @@ class GuruController extends Controller
         ], 200);
     }
 
-    /**
-     * Update data guru.
-     */
     public function update(Request $request, Guru $guru): JsonResponse
     {
         $validated = $request->validate([
@@ -114,9 +98,6 @@ class GuruController extends Controller
         ], 200);
     }
 
-    /**
-     * Hapus data guru.
-     */
     public function destroy(Guru $guru): JsonResponse
     {
         $guru->delete();

@@ -1,8 +1,4 @@
-/**
- * ============================================
- * Form Styles (Formulir Akademik)
- * ============================================
- */
+
 
 .form-group {
   margin-bottom: 20px;
@@ -31,8 +27,6 @@
   color: #1e293b;
   transition: var(--transition-fast);
 }
-
-/* Fokus input menggunakan warna institusi (Navy) */
 .form-control:focus {
   outline: none;
   border-color: var(--accent-primary);
@@ -42,22 +36,16 @@
 .form-control::placeholder {
   color: #94a3b8;
 }
-
-/* Disabled state (misal untuk NIM yang tidak bisa diubah) */
 .form-control:disabled {
   background: #f1f5f9;
   cursor: not-allowed;
   color: #64748b;
 }
-
-/* Grid untuk Form bersebelahan */
 .form-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
-
-/* Micro-interactions for inputs and responsive tweaks */
 .form-control { transition: box-shadow 180ms var(--transition-ease), border-color 160ms var(--transition-ease), transform 160ms var(--transition-ease); }
 .form-control:focus { transform: translateY(-1px); }
 

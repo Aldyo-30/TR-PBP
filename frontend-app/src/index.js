@@ -1,11 +1,4 @@
-/**
- * ============================================
- * index.js — Application Entry Point
- * ============================================
- * React 19 createRoot pattern.
- * Imports global styles from styles/ directory.
- * ============================================
- */
+
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

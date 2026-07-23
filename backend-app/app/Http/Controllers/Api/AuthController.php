@@ -10,18 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-/**
- * Controller untuk autentikasi user.
- * Menggunakan Laravel Sanctum untuk token-based authentication.
- */
 class AuthController extends Controller
 {
-    /**
-     * Login user dan buat Sanctum token.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function login(Request $request): JsonResponse
     {
         $request->validate([
@@ -29,10 +20,8 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Cari user berdasarkan email
         $user = User::where('email', $request->email)->first();
 
-        // Validasi kredensial
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
@@ -41,7 +30,6 @@ class AuthController extends Controller
             ], 401);
         }
 
-        // Buat Sanctum token
         $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
@@ -55,13 +43,6 @@ class AuthController extends Controller
         ], 200);
     }
 
-    /**
-     * Register user baru.
-     * Default role: guru. Setelah register, otomatis login (return token).
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function register(Request $request): JsonResponse
     {
         $request->validate([
@@ -70,7 +51,6 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Buat user baru dengan role default 'guru'
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
@@ -78,7 +58,6 @@ class AuthController extends Controller
             'role'     => 'guru',
         ]);
 
-        // Auto-login: buat Sanctum token
         $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
@@ -92,15 +71,8 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /**
-     * Logout user — hapus token yang sedang digunakan.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function logout(Request $request): JsonResponse
     {
-        // Hapus token yang sedang digunakan saat ini
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
@@ -110,15 +82,8 @@ class AuthController extends Controller
         ], 200);
     }
 
-    /**
-     * Ambil data user yang sedang login beserta relasi guru.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function me(Request $request): JsonResponse
     {
-        // Load relasi guru jika user memiliki role guru
         $user = $request->user()->load('guru');
 
         return response()->json([

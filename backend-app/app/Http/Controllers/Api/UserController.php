@@ -9,24 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
-/**
- * Controller untuk manajemen data user (CRUD).
- * Hanya bisa diakses oleh admin.
- */
 class UserController extends Controller
 {
-    /**
-     * Tampilkan daftar semua user dengan pagination.
-     * Mendukung pencarian berdasarkan nama atau email.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function index(Request $request): JsonResponse
     {
         $query = User::query();
 
-        // Filter pencarian berdasarkan nama atau email
         if ($search = $request->query('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
@@ -34,7 +23,6 @@ class UserController extends Controller
             });
         }
 
-        // Filter berdasarkan role (opsional)
         if ($role = $request->query('role')) {
             $query->where('role', $role);
         }
@@ -48,12 +36,6 @@ class UserController extends Controller
         ], 200);
     }
 
-    /**
-     * Simpan user baru.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -74,12 +56,6 @@ class UserController extends Controller
         ], 201);
     }
 
-    /**
-     * Tampilkan detail satu user.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show(User $user): JsonResponse
     {
         return response()->json([
@@ -89,14 +65,6 @@ class UserController extends Controller
         ], 200);
     }
 
-    /**
-     * Update data user.
-     * Password bersifat opsional — hanya diupdate jika diisi.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function update(Request $request, User $user): JsonResponse
     {
         $validated = $request->validate([
@@ -109,7 +77,6 @@ class UserController extends Controller
             'role'     => 'sometimes|required|in:admin,guru',
         ]);
 
-        // Hash password hanya jika diisi
         if (! empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
@@ -125,17 +92,8 @@ class UserController extends Controller
         ], 200);
     }
 
-    /**
-     * Hapus user.
-     * User tidak bisa menghapus dirinya sendiri.
-     *
-     * @param  \Illuminate\Http\Request  $request — injected to get current user
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function destroy(Request $request, User $user): JsonResponse
     {
-        // Cegah user menghapus dirinya sendiri
         if ($request->user()->id === $user->id) {
             return response()->json([
                 'success' => false,

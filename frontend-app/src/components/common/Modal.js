@@ -1,17 +1,9 @@
-/**
- * ============================================
- * Reusable Modal Component
- * ============================================
- * A generic modal component that matches the styling
- * system of the application.
- * ============================================
- */
+
 
 import { useEffect } from 'react';
 import { FiX } from 'react-icons/fi';
 
 const Modal = ({ isOpen, onClose, title, children, maxWidth = '500px' }) => {
-  // Prevent background scrolling when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -25,7 +17,6 @@ const Modal = ({ isOpen, onClose, title, children, maxWidth = '500px' }) => {
 
   if (!isOpen) return null;
 
-  // Close modal when clicking on the overlay backdrop
   const handleBackdropClick = (e) => {
     if (e.target.classList.contains('modal-overlay')) {
       onClose();

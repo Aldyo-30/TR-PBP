@@ -1,14 +1,4 @@
-/**
- * ============================================
- * Authentication Context
- * ============================================
- * Provides global auth state to the entire app.
- * - Restores auth from localStorage on reload
- * - No blocking /me call on mount — trusts localStorage
- * - Backend 401 via axios interceptor handles expired tokens
- * - Provides login/logout/register functions
- * ============================================
- */
+
 
 import { createContext, useContext, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -16,9 +6,6 @@ import api from '../api/axios';
 
 const AuthContext = createContext(null);
 
-/**
- * Helper: safely parse user from localStorage
- */
 const getStoredUser = () => {
   try {
     const stored = localStorage.getItem('user');
@@ -31,14 +18,10 @@ const getStoredUser = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(getStoredUser);
   const [token, setToken] = useState(() => localStorage.getItem('token'));
-  // No loading state needed — we trust localStorage immediately
   const [loading] = useState(false);
 
   const navigate = useNavigate();
 
-  /**
-   * Login Function
-   */
   const login = useCallback(async (email, password) => {
     const response = await api.post('/login', { email, password });
     const { access_token, user: userData } = response.data.data;
@@ -51,9 +34,6 @@ export const AuthProvider = ({ children }) => {
     return response.data;
   }, []);
 
-  /**
-   * Register Function
-   */
   const register = useCallback(async (name, email, password, password_confirmation) => {
     const response = await api.post('/register', { name, email, password, password_confirmation });
     const { access_token, user: userData } = response.data.data;
@@ -66,9 +46,6 @@ export const AuthProvider = ({ children }) => {
     return response.data;
   }, []);
 
-  /**
-   * Logout Function
-   */
   const logout = useCallback(async () => {
     try {
       await api.post('/logout');
